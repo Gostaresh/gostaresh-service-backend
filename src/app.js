@@ -8,6 +8,7 @@ const morgan = require('morgan');
 
 const routes = require('./routes');
 const { notFound, errorHandler } = require('./middlewares/error');
+const { setupAdmin } = require('./admin');
 
 const app = express();
 
@@ -22,9 +23,12 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/v1', routes);
+// AdminJS panel (mounted asynchronously)
+setupAdmin(app).catch((err) => {
+  console.error('AdminJS setup failed:', err);
+});
 
 app.use(notFound);
 app.use(errorHandler);
 
 module.exports = app;
-

@@ -1,20 +1,20 @@
 'use strict';
 
 const crypto = require('crypto');
-const { User } = require('../models');
+const { user } = require('../models');
 
 function hashPassword(password) {
   return crypto.createHash('sha256').update(password).digest('hex');
 }
 
 exports.list = async () => {
-  return User.findAll({ attributes: { exclude: ['passwordHash'] } });
+  return user.findAll({ attributes: { exclude: ['password'] } });
 };
 
-exports.create = async ({ firstName, lastName, email, password }) => {
+exports.create = async ({ firstName, lastName, userName, email, password }) => {
   const passwordHash = hashPassword(password);
-  const user = await User.create({ firstName, lastName, email, passwordHash });
-  const { passwordHash: _, ...safe } = user.get({ plain: true });
-  return safe;
+  const created = await user.create({ firstName, lastName, userName, email, password: passwordHash });
+  const plain = created.get({ plain: true });
+  delete plain.password;
+  return plain;
 };
-

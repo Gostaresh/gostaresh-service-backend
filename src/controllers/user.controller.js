@@ -4,9 +4,10 @@ const Joi = require('joi');
 const userService = require('../services/user.service');
 
 const createSchema = Joi.object({
-  firstName: Joi.string().min(1).max(100).required(),
-  lastName: Joi.string().min(1).max(100).required(),
-  email: Joi.string().email().required(),
+  firstName: Joi.string().min(1).max(100).optional(),
+  lastName: Joi.string().min(1).max(100).optional(),
+  userName: Joi.string().min(3).max(100).required(),
+  email: Joi.string().email().optional(),
   password: Joi.string().min(6).max(200).required(),
 });
 
@@ -31,4 +32,3 @@ exports.create = async (req, res, next) => {
     next(err);
   }
 };
-
