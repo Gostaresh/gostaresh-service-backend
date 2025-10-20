@@ -58,7 +58,7 @@ module.exports = {
     });
 
     // Additional helpful indexes
-    await queryInterface.addIndex("articles", ["UserID"], {
+    await queryInterface.addIndex("articles", ["userID"], {
       name: "idx_articles_userID",
     });
     await queryInterface.addIndex("articles", ["slug"], {

@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "articleTypeID",
         as: "article_types",
       });
-      this.belongsTo(models.User, {
+      this.belongsTo(models.user, {
         foreignKey: "userID",
         as: "author",
       });
