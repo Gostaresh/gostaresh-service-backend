@@ -30,8 +30,16 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+    await queryInterface.addIndex("sms_logs", ["phone"], {
+      name: "idx_sms_logs_phone",
+    });
+    await queryInterface.addIndex("sms_logs", ["status"], {
+      name: "idx_sms_logs_status",
+    });
   },
   async down(queryInterface, Sequelize) {
+    try { await queryInterface.removeIndex("sms_logs", "idx_sms_logs_status"); } catch (e) {}
+    try { await queryInterface.removeIndex("sms_logs", "idx_sms_logs_phone"); } catch (e) {}
     await queryInterface.dropTable("sms_logs");
   },
 };

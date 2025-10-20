@@ -43,8 +43,12 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+    await queryInterface.addIndex("galleries", ["productID"], {
+      name: "idx_galleries_productID",
+    });
   },
   async down(queryInterface, Sequelize) {
+    try { await queryInterface.removeIndex("galleries", "idx_galleries_productID"); } catch (e) {}
     await queryInterface.dropTable("galleries");
   },
 };

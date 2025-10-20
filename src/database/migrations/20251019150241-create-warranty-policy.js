@@ -52,8 +52,21 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    await queryInterface.addIndex("warranty_policies", ["providerID"], {
+      name: "idx_warranty_policies_providerID",
+    });
+    await queryInterface.addIndex("warranty_policies", ["categoryID"], {
+      name: "idx_warranty_policies_categoryID",
+    });
+    await queryInterface.addIndex("warranty_policies", ["brandID"], {
+      name: "idx_warranty_policies_brandID",
+    });
   },
   async down(queryInterface, Sequelize) {
+    try { await queryInterface.removeIndex("warranty_policies", "idx_warranty_policies_brandID"); } catch (e) {}
+    try { await queryInterface.removeIndex("warranty_policies", "idx_warranty_policies_categoryID"); } catch (e) {}
+    try { await queryInterface.removeIndex("warranty_policies", "idx_warranty_policies_providerID"); } catch (e) {}
     await queryInterface.dropTable("warranty_policies");
   },
 };

@@ -6,9 +6,21 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsToMany(models.Role, {
         through: models.UserRole,
-        foreignKey: "userId",
+        foreignKey: "userID",
         otherKey: "roleId",
         as: "roles",
+      });
+      this.hasMany(models.article, {
+        foreignKey: "userID",
+        as: "articles",
+      });
+      this.hasMany(models.product, {
+        foreignKey: "createdBy",
+        as: "products",
+      });
+      this.hasMany(models.warranty_logs, {
+        foreignKey: "userID",
+        as: "warrantyLogs",
       });
     }
   }
@@ -31,8 +43,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "User",
-      tableName: "Users",
+      modelName: "user",
+      tableName: "users",
     }
   );
 

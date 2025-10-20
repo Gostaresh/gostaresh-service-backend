@@ -9,16 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsToMany(models.Permission, {
-        through: models.RolePermission,
-        foreignKey: 'roleId',
-        otherKey: 'permissionId',
-        as: 'permissions',
+        through: models.role_permission,
+        foreignKey: "roleID",
+        otherKey: "permissionID",
+        as: "permissions",
       });
       this.belongsToMany(models.User, {
-        through: models.UserRole,
-        foreignKey: 'roleId',
-        otherKey: 'userId',
-        as: 'users',
+        through: models.user_role,
+        foreignKey: "roleID",
+        otherKey: "userID",
+        as: "users",
       });
     }
   }
@@ -38,7 +38,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Role",
+      modelName: "role",
+      tableName: "roles",
     }
   );
   return Role;

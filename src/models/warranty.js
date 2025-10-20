@@ -8,7 +8,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.product, {
+        foreignKey: "productID",
+        as: "product",
+      });
+      this.belongsTo(models.warranty_policy, {
+        foreignKey: "policyID",
+        as: "policy",
+      });
+      this.hasMany(models.warranty_ticket, {
+        foreignKey: "warrantyID",
+        as: "tickets",
+      });
     }
   }
   warranty.init(
@@ -30,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "warranty",
+      tableName: "warranties",
     }
   );
   return warranty;

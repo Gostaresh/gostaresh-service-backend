@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
 
   RolePermission.init(
     {
-      roleId: {
+      roleID: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
       },
-      permissionId: {
+      permissionID: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
@@ -23,16 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "RolePermission",
-      tableName: "RolePermissions",
+      modelName: "role_permission",
+      tableName: "role_permissions",
       timestamps: true,
-      indexes: [
-        { fields: ["roleId"] },
-        { fields: ["permissionId"] },
-      ],
+      indexes: [{ fields: ["roleID"] }, { fields: ["permissionID"] }],
     }
   );
 
   return RolePermission;
 };
-

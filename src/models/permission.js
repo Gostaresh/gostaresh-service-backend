@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsToMany(models.Role, {
         through: models.RolePermission,
-        foreignKey: 'permissionId',
-        otherKey: 'roleId',
-        as: 'roles',
+        foreignKey: "permissionId",
+        otherKey: "roleId",
+        as: "roles",
       });
     }
   }
@@ -32,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Permission",
+      modelName: "permission",
+      tableName: "permissions",
     }
   );
   return Permission;

@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.warranty_logs, {
+        foreignKey: 'stateID',
+        as: 'logs',
+      });
     }
   }
   warranty_state.init({
@@ -25,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'warranty_state',
+    tableName: 'warranty_states'
   });
   return warranty_state;
 };

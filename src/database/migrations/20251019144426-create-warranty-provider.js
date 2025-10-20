@@ -31,8 +31,17 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+    await queryInterface.addIndex("warranty_providers", ["slug"], {
+      name: "idx_warranty_providers_slug",
+    });
   },
   async down(queryInterface, Sequelize) {
+    try {
+      await queryInterface.removeIndex(
+        "warranty_providers",
+        "idx_warranty_providers_slug"
+      );
+    } catch (e) {}
     await queryInterface.dropTable("warranty_providers");
   },
 };

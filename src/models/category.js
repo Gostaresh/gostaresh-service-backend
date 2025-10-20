@@ -12,6 +12,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "parentID",
         as: "children",
       });
+      this.hasMany(models.product, {
+        foreignKey: "categoryID",
+        as: "products",
+      });
+      this.hasMany(models.warranty_policy, {
+        foreignKey: "categoryID",
+        as: "warranty_policies",
+      });
     }
   }
 
@@ -37,4 +45,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return category;
 };
-

@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "SMS_Log",
+      modelName: "sms_log",
+      tableName: "sms_logs",
     }
   );
   return SMS_Log;

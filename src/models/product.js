@@ -8,7 +8,30 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.User, {
+        foreignKey: "createdBy",
+        as: "creator",
+      });
+      this.belongsTo(models.product_status, {
+        foreignKey: "statusID",
+        as: "status",
+      });
+      this.belongsTo(models.brand, {
+        foreignKey: "brandID",
+        as: "brand",
+      });
+      this.belongsTo(models.category, {
+        foreignKey: "categoryID",
+        as: "category",
+      });
+      this.hasMany(models.gallery, {
+        foreignKey: "productID",
+        as: "galleries",
+      });
+      this.hasMany(models.warranty, {
+        foreignKey: "productID",
+        as: "warranties",
+      });
     }
   }
   product.init(
@@ -33,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "product",
+      tableName: "products",
     }
   );
   return product;

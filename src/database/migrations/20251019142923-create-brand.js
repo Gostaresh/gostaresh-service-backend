@@ -34,8 +34,15 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    await queryInterface.addIndex("brands", ["slug"], {
+      name: "idx_brands_slug",
+    });
   },
   async down(queryInterface, Sequelize) {
+    try {
+      await queryInterface.removeIndex("brands", "idx_brands_slug");
+    } catch (e) {}
     await queryInterface.dropTable("brands");
   },
 };

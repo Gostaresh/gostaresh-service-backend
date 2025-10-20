@@ -43,8 +43,36 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    await queryInterface.addIndex("warranty_logs", ["ticketID"], {
+      name: "idx_warranty_logs_ticketID",
+    });
+    await queryInterface.addIndex("warranty_logs", ["userID"], {
+      name: "idx_warranty_logs_userID",
+    });
+    await queryInterface.addIndex("warranty_logs", ["stateID"], {
+      name: "idx_warranty_logs_stateID",
+    });
   },
   async down(queryInterface, Sequelize) {
+    try {
+      await queryInterface.removeIndex(
+        "warranty_logs",
+        "idx_warranty_logs_stateID"
+      );
+    } catch (e) {}
+    try {
+      await queryInterface.removeIndex(
+        "warranty_logs",
+        "idx_warranty_logs_userID"
+      );
+    } catch (e) {}
+    try {
+      await queryInterface.removeIndex(
+        "warranty_logs",
+        "idx_warranty_logs_ticketID"
+      );
+    } catch (e) {}
     await queryInterface.dropTable("warranty_logs");
   },
 };

@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
 
   UserRole.init(
     {
-      userId: {
+      userID: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
       },
-      roleId: {
+      roleID: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
@@ -23,16 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "UserRole",
-      tableName: "UserRoles",
+      modelName: "user_role",
+      tableName: "user_roles",
       timestamps: true,
-      indexes: [
-        { fields: ["userId"] },
-        { fields: ["roleId"] },
-      ],
+      indexes: [{ fields: ["userID"] }, { fields: ["roleID"] }],
     }
   );
 
   return UserRole;
 };
-

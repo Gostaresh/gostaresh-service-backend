@@ -70,8 +70,29 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    await queryInterface.addIndex("products", ["createdBy"], {
+      name: "idx_products_createdBy",
+    });
+    await queryInterface.addIndex("products", ["statusID"], {
+      name: "idx_products_statusID",
+    });
+    await queryInterface.addIndex("products", ["brandID"], {
+      name: "idx_products_brandID",
+    });
+    await queryInterface.addIndex("products", ["categoryID"], {
+      name: "idx_products_categoryID",
+    });
+    await queryInterface.addIndex("products", ["slug"], {
+      name: "idx_products_slug",
+    });
   },
   async down(queryInterface, Sequelize) {
+    try { await queryInterface.removeIndex("products", "idx_products_slug"); } catch (e) {}
+    try { await queryInterface.removeIndex("products", "idx_products_categoryID"); } catch (e) {}
+    try { await queryInterface.removeIndex("products", "idx_products_brandID"); } catch (e) {}
+    try { await queryInterface.removeIndex("products", "idx_products_statusID"); } catch (e) {}
+    try { await queryInterface.removeIndex("products", "idx_products_createdBy"); } catch (e) {}
     await queryInterface.dropTable("products");
   },
 };

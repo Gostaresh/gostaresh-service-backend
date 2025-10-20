@@ -26,7 +26,7 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "SET NULL",
       },
-      UserID: {
+      userID: {
         type: Sequelize.UUID,
         allowNull: true,
         references: { model: "users", key: "id" },
@@ -57,6 +57,14 @@ module.exports = {
       name: "idx_articles_articleTypeID",
     });
 
+    // Additional helpful indexes
+    await queryInterface.addIndex("articles", ["UserID"], {
+      name: "idx_articles_userID",
+    });
+    await queryInterface.addIndex("articles", ["slug"], {
+      name: "idx_articles_slug",
+    });
+
     // FK defined inline above; no extra addConstraint needed
   },
   async down(queryInterface, Sequelize) {
@@ -66,6 +74,12 @@ module.exports = {
         "articles",
         "idx_articles_articleTypeID"
       );
+    } catch (e) {}
+    try {
+      await queryInterface.removeIndex("articles", "idx_articles_userID");
+    } catch (e) {}
+    try {
+      await queryInterface.removeIndex("articles", "idx_articles_slug");
     } catch (e) {}
     await queryInterface.dropTable("articles");
   },

@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "articleTypeID",
         as: "article_types",
       });
+      this.belongsTo(models.User, {
+        foreignKey: "userID",
+        as: "author",
+      });
     }
   }
 
@@ -23,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       shortContent: DataTypes.TEXT,
       longContent: DataTypes.TEXT,
       articleTypeID: DataTypes.UUID,
-      UserID: DataTypes.UUID,
+      userID: DataTypes.UUID,
       slug: DataTypes.STRING,
       isActive: DataTypes.BOOLEAN,
     },
