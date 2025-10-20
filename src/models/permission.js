@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Permission extends Model {
+  class permission extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  Permission.init(
+  permission.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -36,5 +36,5 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "permissions",
     }
   );
-  return Permission;
+  return permission;
 };

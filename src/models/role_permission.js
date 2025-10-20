@@ -2,13 +2,13 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class RolePermission extends Model {
+  class role_permission extends Model {
     static associate(models) {
       // pivot model; associations defined in Role/Permission
     }
   }
 
-  RolePermission.init(
+  role_permission.init(
     {
       roleID: {
         type: DataTypes.UUID,
@@ -30,5 +30,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  return RolePermission;
+  return role_permission;
 };

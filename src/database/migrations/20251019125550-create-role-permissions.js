@@ -30,11 +30,11 @@ module.exports = {
       },
     });
 
-    await queryInterface.addIndex("role_permissions", ["roleId"], {
-      name: "idx_role_permissions_roleId",
+    await queryInterface.addIndex("role_permissions", ["roleID"], {
+      name: "idx_role_permissions_roleID",
     });
-    await queryInterface.addIndex("role_permissions", ["permissionId"], {
-      name: "idx_role_permissions_permissionId",
+    await queryInterface.addIndex("role_permissions", ["permissionID"], {
+      name: "idx_role_permissions_permissionID",
     });
   },
 

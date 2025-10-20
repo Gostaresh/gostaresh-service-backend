@@ -10,7 +10,7 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
       },
       phone: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       text: {
@@ -38,8 +38,12 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    try { await queryInterface.removeIndex("sms_logs", "idx_sms_logs_status"); } catch (e) {}
-    try { await queryInterface.removeIndex("sms_logs", "idx_sms_logs_phone"); } catch (e) {}
+    try {
+      await queryInterface.removeIndex("sms_logs", "idx_sms_logs_status");
+    } catch (e) {}
+    try {
+      await queryInterface.removeIndex("sms_logs", "idx_sms_logs_phone");
+    } catch (e) {}
     await queryInterface.dropTable("sms_logs");
   },
 };

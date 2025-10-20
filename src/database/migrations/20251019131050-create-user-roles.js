@@ -30,15 +30,15 @@ module.exports = {
       },
     });
 
-    await queryInterface.addIndex("user_roles", ["userId"], {
-      name: "idx_user_roles_userId",
+    await queryInterface.addIndex("user_roles", ["userID"], {
+      name: "idx_user_roles_userID",
     });
-    await queryInterface.addIndex("user_roles", ["roleId"], {
-      name: "idx_user_roles_roleId",
+    await queryInterface.addIndex("user_roles", ["roleID"], {
+      name: "idx_user_roles_roleID",
     });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("UserRoles");
+    await queryInterface.dropTable("user_roles");
   },
 };

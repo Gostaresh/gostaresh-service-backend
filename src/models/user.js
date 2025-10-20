@@ -2,7 +2,7 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class user extends Model {
     static associate(models) {
       this.belongsToMany(models.Role, {
         through: models.UserRole,
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
 
-  User.init(
+  user.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -48,5 +48,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  return User;
+  return user;
 };
