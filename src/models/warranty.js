@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       productID: DataTypes.UUID,
       productSerial: DataTypes.STRING,
       warrantySerial: DataTypes.STRING,
-      warrantyID: DataTypes.UUID,
+      policyID: DataTypes.UUID,
       startDate: DataTypes.DATE,
       endDate: DataTypes.DATE,
       isActive: DataTypes.BOOLEAN,

@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("SMS_Logs", {
+    await queryInterface.createTable("sms_logs", {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -11,12 +11,15 @@ module.exports = {
       },
       phone: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
       text: {
         type: Sequelize.TEXT,
+        allowNull: false,
       },
       status: {
         type: Sequelize.STRING,
+        defaultValue: "sent",
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("SMS_Logs");
+    await queryInterface.dropTable("sms_logs");
   },
 };

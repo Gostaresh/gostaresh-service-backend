@@ -11,9 +11,14 @@ module.exports = {
       },
       ticketNo: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       warrantyID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "warranties", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       customerName: {
         type: Sequelize.STRING,

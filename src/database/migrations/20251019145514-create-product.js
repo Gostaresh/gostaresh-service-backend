@@ -11,6 +11,7 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       shortDescription: {
         type: Sequelize.TEXT,
@@ -20,24 +21,45 @@ module.exports = {
       },
       price: {
         type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: null,
       },
       createdBy: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "users", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       statusID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "product_statuses", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       brandID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "brands", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       categoryID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "categories", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       slug: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       isActive: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
       createdAt: {
         allowNull: false,

@@ -11,15 +11,28 @@ module.exports = {
       },
       ticketID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "warranty_tickets", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       userID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "users", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       stateID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "warranty_states", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       description: {
         type: Sequelize.TEXT,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

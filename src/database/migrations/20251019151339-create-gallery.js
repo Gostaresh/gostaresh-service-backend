@@ -11,18 +11,28 @@ module.exports = {
       },
       fileName: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       path: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       productID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "products", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       isMain: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       isActive: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
       createdAt: {
         allowNull: false,

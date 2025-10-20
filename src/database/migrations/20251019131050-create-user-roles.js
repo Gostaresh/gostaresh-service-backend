@@ -3,12 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("UserRoles", {
+    await queryInterface.createTable("user_roles", {
       userId: {
         type: Sequelize.UUID,
         allowNull: false,
         primaryKey: true,
-        references: { model: "Users", key: "id" },
+        references: { model: "users", key: "id" },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.UUID,
         allowNull: false,
         primaryKey: true,
-        references: { model: "Roles", key: "id" },
+        references: { model: "roles", key: "id" },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
@@ -30,10 +30,10 @@ module.exports = {
       },
     });
 
-    await queryInterface.addIndex("UserRoles", ["userId"], {
+    await queryInterface.addIndex("user_roles", ["userId"], {
       name: "idx_user_roles_userId",
     });
-    await queryInterface.addIndex("UserRoles", ["roleId"], {
+    await queryInterface.addIndex("user_roles", ["roleId"], {
       name: "idx_user_roles_roleId",
     });
   },
@@ -42,4 +42,3 @@ module.exports = {
     await queryInterface.dropTable("UserRoles");
   },
 };
-

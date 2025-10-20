@@ -11,24 +11,38 @@ module.exports = {
       },
       productID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "products", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       productSerial: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       warrantySerial: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
-      warrantyID: {
+      policyID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "warranty_policies", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       startDate: {
         type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
       endDate: {
         type: Sequelize.DATE,
       },
       isActive: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
       createdAt: {
         allowNull: false,

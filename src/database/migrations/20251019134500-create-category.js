@@ -17,17 +17,19 @@ module.exports = {
       parentID: {
         type: Sequelize.UUID,
         allowNull: true,
-        references: { model: "categories", field: "id" },
+        defaultValue: null,
+        references: { model: "categories", key: "id" },
         onUpdate: "CASCADE",
         onDelete: "SET NULL",
       },
       slug: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       isActive: {
         type: Sequelize.BOOLEAN,
-        allowNull: true,
+        allowNull: false,
+        defaultValue: true,
       },
       createdAt: {
         allowNull: false,

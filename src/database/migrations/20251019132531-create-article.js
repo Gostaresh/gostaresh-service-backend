@@ -11,6 +11,7 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       shortContent: {
         type: Sequelize.TEXT,
@@ -21,18 +22,25 @@ module.exports = {
       articleTypeID: {
         type: Sequelize.UUID,
         allowNull: true,
-        references: { model: 'article_types', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        references: { model: "article_types", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       UserID: {
         type: Sequelize.UUID,
+        allowNull: true,
+        references: { model: "users", key: "id" },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       slug: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       isActive: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
       createdAt: {
         allowNull: false,
@@ -53,7 +61,12 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     // Remove index before dropping table (safety)
-    try { await queryInterface.removeIndex("articles", "idx_articles_articleTypeID"); } catch (e) {}
+    try {
+      await queryInterface.removeIndex(
+        "articles",
+        "idx_articles_articleTypeID"
+      );
+    } catch (e) {}
     await queryInterface.dropTable("articles");
   },
 };
