@@ -1,0 +1,3 @@
+const contentMenu = { name: "محتوا", icon: "Document" };
+  const productMenu = { name: "محصولات", icon: "Pac
+

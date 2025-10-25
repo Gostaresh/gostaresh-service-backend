@@ -17,36 +17,6 @@ async function setupAdmin(app) {
     Resource: AdminJSSequelize.Resource,
   });
 
-  // Handle multi-file images upload for products and persist in galleries
-  async function handleProductImagesUpload(request, productId) {
-    try {
-      const files = request?.files?.images;
-      if (!files) return;
-      const list = Array.isArray(files) ? files : [files];
-      for (const f of list) {
-        const tmpPath = f?.filepath || f?.path;
-        const original = f?.originalFilename || f?.name || "image";
-        if (!tmpPath) continue;
-        const destDir = path.join(process.cwd(), "uploads", "products", String(productId));
-        fs.mkdirSync(destDir, { recursive: true });
-        const safeName = `${Date.now()}_${original}`.replace(/[^\w_.-]+/g, "-");
-        const destPath = path.join(destDir, safeName);
-        fs.renameSync(tmpPath, destPath);
-        const relative = `/uploads/products/${productId}/${safeName}`;
-        await db.gallery.create({
-          fileName: safeName,
-          path: relative,
-          productID: productId,
-          isMain: false,
-          isActive: true,
-        });
-      }
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.warn("[AdminJS] handleProductImagesUpload error:", e?.message);
-    }
-  }
-
   const contentMenu = { name: "محتوا", icon: "Document" };
   const productMenu = { name: "محصولات", icon: "Package" };
 
@@ -54,97 +24,15 @@ async function setupAdmin(app) {
     // Scope only the requested resources; hide the rest by not registering them
     resources: [
       {
-        resource: db.user,
-        options: {
-          navigation: false,
-          properties: {
-            id: {
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: true,
-              },
-            },
-            firstName: { label: "نام" },
-            lastName: { label: "نام خانوادگی" },
-            userName: { label: "نام کاربری" },
-            password: {
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: false,
-              },
-            },
-            phone: { label: "تلفن" },
-            email: { label: "ایمیل" },
-            isActive: { label: "فعال" },
-            createdAt: { label: "ایجاد" },
-            updatedAt: { label: "به‌روزرسانی" },
-          },
-          listProperties: [
-            "userName",
-            "firstName",
-            "lastName",
-            "email",
-            "isActive",
-          ],
-          filterProperties: [
-            "userName",
-            "firstName",
-            "lastName",
-            "email",
-            "isActive",
-          ],
-          editProperties: [
-            "firstName",
-            "lastName",
-            "userName",
-            "email",
-            "phone",
-            "isActive",
-          ],
-          showProperties: [
-            "id",
-            "userName",
-            "firstName",
-            "lastName",
-            "email",
-            "phone",
-            "isActive",
-            "createdAt",
-          ],
-        },
-      },
-      {
         resource: db.article_type,
         options: {
           navigation: contentMenu,
           properties: {
-            id: {
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: true,
-              },
-            },
+            id: { isVisible: { list: false, edit: false, filter: false, show: true } },
             name: { label: "نام" },
             isActive: { label: "فعال" },
-            createdAt: {
-              label: "ایجاد",
-              isVisible: { list: true, edit: false, filter: true, show: true },
-            },
-            updatedAt: {
-              label: "به‌روزرسانی",
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: true,
-              },
-            },
+            createdAt: { label: "ایجاد", isVisible: { list: true, edit: false, filter: true, show: true } },
+            updatedAt: { label: "به‌روزرسانی", isVisible: { list: false, edit: false, filter: false, show: true } },
           },
           listProperties: ["name", "isActive", "createdAt"],
           filterProperties: ["name", "isActive", "createdAt"],
@@ -157,59 +45,21 @@ async function setupAdmin(app) {
         options: {
           navigation: contentMenu,
           properties: {
-            id: {
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: true,
-              },
-            },
+            id: { isVisible: { list: false, edit: false, filter: false, show: true } },
             title: { label: "عنوان" },
             shortContent: { label: "خلاصه" },
             longContent: { label: "محتوای کامل", type: "richtext" },
-            articleTypeID: { label: "نوع مقاله", reference: "article_types" },
-            userID: { label: "نویسنده" },
+            articleTypeID: { label: "نوع مقاله", reference: "article_type" },
+            userID: { label: "نویسنده", reference: "user" },
             slug: { label: "نامک" },
             isActive: { label: "فعال" },
             createdAt: { label: "ایجاد" },
             updatedAt: { label: "به‌روزرسانی" },
           },
-          listProperties: [
-            "title",
-            "articleTypeID",
-            "userID",
-            "isActive",
-            "createdAt",
-          ],
-          filterProperties: [
-            "title",
-            "articleTypeID",
-            "userID",
-            "isActive",
-            "createdAt",
-          ],
-          editProperties: [
-            "title",
-            "articleTypeID",
-            "userID",
-            "shortContent",
-            "longContent",
-            "slug",
-            "isActive",
-          ],
-          showProperties: [
-            "id",
-            "title",
-            "articleTypeID",
-            "userID",
-            "shortContent",
-            "longContent",
-            "slug",
-            "isActive",
-            "createdAt",
-            "updatedAt",
-          ],
+          listProperties: ["title", "articleTypeID", "userID", "isActive", "createdAt"],
+          filterProperties: ["title", "articleTypeID", "userID", "isActive", "createdAt"],
+          editProperties: ["title", "articleTypeID", "userID", "shortContent", "longContent", "slug", "isActive"],
+          showProperties: ["id", "title", "articleTypeID", "userID", "shortContent", "longContent", "slug", "isActive", "createdAt", "updatedAt"],
         },
       },
       {
@@ -217,14 +67,7 @@ async function setupAdmin(app) {
         options: {
           navigation: productMenu,
           properties: {
-            id: {
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: true,
-              },
-            },
+            id: { isVisible: { list: false, edit: false, filter: false, show: true } },
             name: { label: "نام" },
             description: { label: "توضیحات" },
             slug: { label: "نامک" },
@@ -235,15 +78,7 @@ async function setupAdmin(app) {
           listProperties: ["name", "isActive", "createdAt"],
           filterProperties: ["name", "isActive", "createdAt"],
           editProperties: ["name", "description", "slug", "isActive"],
-          showProperties: [
-            "id",
-            "name",
-            "description",
-            "slug",
-            "isActive",
-            "createdAt",
-            "updatedAt",
-          ],
+          showProperties: ["id", "name", "description", "slug", "isActive", "createdAt", "updatedAt"],
         },
       },
       {
@@ -251,16 +86,9 @@ async function setupAdmin(app) {
         options: {
           navigation: productMenu,
           properties: {
-            id: {
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: true,
-              },
-            },
+            id: { isVisible: { list: false, edit: false, filter: false, show: true } },
             name: { label: "نام" },
-            parentID: { label: "دسته والد", reference: "categories" },
+            parentID: { label: "دسته والد", reference: "category" },
             slug: { label: "نامک" },
             isActive: { label: "فعال" },
             createdAt: { label: "ایجاد" },
@@ -269,15 +97,7 @@ async function setupAdmin(app) {
           listProperties: ["name", "parentID", "isActive"],
           filterProperties: ["name", "parentID", "isActive"],
           editProperties: ["name", "parentID", "slug", "isActive"],
-          showProperties: [
-            "id",
-            "name",
-            "parentID",
-            "slug",
-            "isActive",
-            "createdAt",
-            "updatedAt",
-          ],
+          showProperties: ["id", "name", "parentID", "slug", "isActive", "createdAt", "updatedAt"],
         },
       },
       {
@@ -289,9 +109,7 @@ async function setupAdmin(app) {
             new: {
               before: async (request) => {
                 try {
-                  const pid =
-                    request?.query?.filters?.productID ||
-                    request?.query?.productID;
+                  const pid = request?.query?.filters?.productID || request?.query?.productID;
                   if (pid && request?.payload) {
                     request.payload = {
                       ...(request.payload || {}),
@@ -307,39 +125,18 @@ async function setupAdmin(app) {
             },
           },
           properties: {
-            id: {
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: true,
-              },
-            },
+            id: { isVisible: { list: false, edit: false, filter: false, show: true } },
             fileName: { label: "نام فایل" },
             path: { label: "مسیر" },
-            productID: { label: "محصول", reference: "products" },
+            productID: { label: "محصول", reference: "product" },
             isMain: { label: "عکس اصلی" },
             isActive: { label: "فعال" },
             createdAt: { label: "ایجاد" },
           },
           listProperties: ["fileName", "productID", "isMain", "isActive"],
           filterProperties: ["fileName", "productID", "isMain", "isActive"],
-          editProperties: [
-            "fileName",
-            "path",
-            "productID",
-            "isMain",
-            "isActive",
-          ],
-          showProperties: [
-            "id",
-            "fileName",
-            "path",
-            "productID",
-            "isMain",
-            "isActive",
-            "createdAt",
-          ],
+          editProperties: ["fileName", "path", "productID", "isMain", "isActive"],
+          showProperties: ["id", "fileName", "path", "productID", "isMain", "isActive", "createdAt"],
         },
       },
       {
@@ -354,79 +151,29 @@ async function setupAdmin(app) {
               label: "مدیریت گالری",
               handler: async (request, response, context) => {
                 const id = context?.record?.param("id");
-                const recordJson = context?.record?.toJSON?.(context?.currentAdmin) || {};
                 return {
-                  record: recordJson,
                   redirectUrl: `${context._admin.options.rootPath}/resources/gallery?filters.productID=${id}`,
                 };
               },
             },
-            new: {
-              before: async (request) => {
-                if (request?.payload?.record) delete request.payload.record.images;
-                return request;
-              },
-              after: async (response, request, context) => {
-                const recId = response?.record?.id || context?.record?.id?.();
-                if (recId) await handleProductImagesUpload(request, recId);
-                return response;
-              },
-            },
-            edit: {
-              before: async (request) => {
-                if (request?.payload?.record) delete request.payload.record.images;
-                return request;
-              },
-              after: async (response, request, context) => {
-                const recId = context?.record?.id?.();
-                if (recId) await handleProductImagesUpload(request, recId);
-                return response;
-              },
-            },
           },
           properties: {
-            id: {
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: true,
-              },
-            },
+            id: { isVisible: { list: false, edit: false, filter: false, show: true } },
             name: { label: "نام" },
             shortDescription: { label: "توضیح کوتاه" },
             longDescription: { label: "توضیح کامل", type: "richtext" },
             price: { label: "قیمت" },
-            createdBy: { label: "ایجادکننده" },
-            statusID: { label: "وضعیت", reference: "product_statuses" },
-            brandID: { label: "برند", reference: "brands" },
-            categoryID: { label: "دسته‌بندی", reference: "categories" },
+            createdBy: { label: "ایجادکننده", reference: "user" },
+            statusID: { label: "وضعیت", reference: "product_status" },
+            brandID: { label: "برند", reference: "brand" },
+            categoryID: { label: "دسته‌بندی", reference: "category" },
             slug: { label: "نامک" },
             isActive: { label: "فعال" },
             createdAt: { label: "ایجاد" },
             updatedAt: { label: "به‌روزرسانی" },
-            images: {
-              label: "تصاویر محصول",
-              isVisible: { list: false, filter: false, show: false, edit: true },
-              type: "mixed",
-            },
           },
-          listProperties: [
-            "name",
-            "brandID",
-            "categoryID",
-            "statusID",
-            "price",
-            "isActive",
-            "images",
-          ],
-          filterProperties: [
-            "name",
-            "brandID",
-            "categoryID",
-            "statusID",
-            "isActive",
-          ],
+          listProperties: ["name", "brandID", "categoryID", "statusID", "price", "isActive"],
+          filterProperties: ["name", "brandID", "categoryID", "statusID", "isActive"],
           editProperties: [
             "name",
             "brandID",
@@ -459,29 +206,11 @@ async function setupAdmin(app) {
         options: {
           navigation: productMenu,
           properties: {
-            id: {
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: true,
-              },
-            },
+            id: { isVisible: { list: false, edit: false, filter: false, show: true } },
             name: { label: "نام" },
             isActive: { label: "فعال" },
-            createdAt: {
-              label: "ایجاد",
-              isVisible: { list: true, edit: false, filter: true, show: true },
-            },
-            updatedAt: {
-              label: "به‌روزرسانی",
-              isVisible: {
-                list: false,
-                edit: false,
-                filter: false,
-                show: true,
-              },
-            },
+            createdAt: { label: "ایجاد", isVisible: { list: true, edit: false, filter: true, show: true } },
+            updatedAt: { label: "به‌روزرسانی", isVisible: { list: false, edit: false, filter: false, show: true } },
           },
           listProperties: ["name", "isActive", "createdAt"],
           filterProperties: ["name", "isActive", "createdAt"],
@@ -587,8 +316,7 @@ async function setupAdmin(app) {
   };
 
   // Add/override resource names in Persian
-  admin.options.locale.translations.fa =
-    admin.options.locale.translations.fa || {};
+  admin.options.locale.translations.fa = admin.options.locale.translations.fa || {};
   admin.options.locale.translations.fa.resources = {
     ...(admin.options.locale.translations.fa.resources || {}),
     article: { name: "مقالات" },
@@ -689,3 +417,4 @@ async function setupAdmin(app) {
 }
 
 module.exports = { setupAdmin };
+

@@ -2,6 +2,7 @@
 
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -15,6 +16,9 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(morgan('dev'));
+
+// Static uploads for serving product images
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', uptime: process.uptime() });
