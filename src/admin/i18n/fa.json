@@ -1,0 +1,129 @@
+{
+  "actions": {
+    "new": "ایجاد جدید",
+    "edit": "ویرایش",
+    "show": "نمایش",
+    "delete": "حذف",
+    "bulkDelete": "حذف همه",
+    "list": "لیست"
+  },
+  "buttons": {
+    "save": "ذخیره",
+    "addNewItem": "افزودن مورد جدید",
+    "filter": "فیلتر",
+    "filterActive": "فیلتر ({{count}})",
+    "applyChanges": "اعمال تغییرات",
+    "resetFilter": "بازنشانی",
+    "confirmRemovalMany": "تأیید حذف {{count}} رکورد",
+    "confirmRemovalMany_plural": "تأیید حذف {{count}} رکورد",
+    "logout": "خروج",
+    "login": "ورود",
+    "seeTheDocumentation": "مشاهده: <1>مستندات</1>",
+    "createFirstRecord": "ایجاد اولین رکورد",
+    "cancel": "لغو",
+    "confirm": "تأیید",
+    "contactUs": "تماس با ما"
+  },
+  "components": {
+    "DropZone": {
+      "placeholder": "فایل خود را اینجا رها کنید یا کلیک کنید تا مرور کنید",
+      "acceptedSize": "حداکثر اندازه: {{maxSize}}",
+      "acceptedType": "پشتیبانی از: {{mimeTypes}}",
+      "unsupportedSize": "فایل {{fileName}} بیش از حد بزرگ است",
+      "unsupportedType": "فایل {{fileName}} نوع غیرپشتیبانی‌شده دارد: {{fileType}}"
+    },
+    "LanguageSelector": {
+      "availableLanguages": {
+        "de": "آلمانی",
+        "en": "انگلیسی",
+        "es": "اسپانیایی",
+        "it": "ایتالیایی",
+        "ja": "ژاپنی",
+        "pl": "لهستانی",
+        "pt-BR": "پرتغالی (برزیل)",
+        "ua": "اوکراینی",
+        "zh-CN": "چینی"
+      }
+    },
+    "Login": {
+      "welcomeHeader": "خوش آمدید",
+      "welcomeMessage": "به AdminJS - پیشروترین پنل مدیریتی متن‌باز خودکار برای برنامه‌های Node.js که به شما امکان مدیریت تمام داده‌هایتان را در یک مکان می‌دهد",
+      "properties": {
+        "email": "ایمیل",
+        "password": "رمز عبور"
+      },
+      "loginButton": "ورود"
+    }
+  },
+  "labels": {
+    "navigation": "ناوبری",
+    "pages": "صفحات",
+    "selectedRecords": "انتخاب‌شده ({{selected}})",
+    "filters": "فیلترها",
+    "adminVersion": "مدیریت: {{version}}",
+    "appVersion": "برنامه: {{version}}",
+    "dashboard": "داشبورد"
+  },
+  "properties": {
+    "length": "طول",
+    "from": "از",
+    "to": "تا"
+  },
+  "resources": {},
+  "messages": {
+    "successfullyBulkDeleted": "{{count}} رکورد با موفقیت حذف شد",
+    "successfullyBulkDeleted_plural": "{{count}} رکورد با موفقیت حذف شدند",
+    "successfullyDeleted": "رکورد موردنظر با موفقیت حذف شد",
+    "successfullyUpdated": "رکورد موردنظر با موفقیت به‌روزرسانی شد",
+    "thereWereValidationErrors": "خطاهای اعتبارسنجی وجود دارد - آنها را در زیر بررسی کنید",
+    "forbiddenError": "شما نمی‌توانید اقدام {{actionName}} را روی {{resourceId}} انجام دهید",
+    "anyForbiddenError": "شما نمی‌توانید اقدام موردنظر را انجام دهید",
+    "successfullyCreated": "رکورد جدید با موفقیت ایجاد شد",
+    "bulkDeleteError": "خطایی در حذف رکوردها رخ داد. برای اطلاعات بیشتر کنسول را بررسی کنید",
+    "errorFetchingRecords": "خطایی در دریافت رکوردها رخ داد. برای اطلاعات بیشتر کنسول را بررسی کنید",
+    "errorFetchingRecord": "خطایی در دریافت رکورد رخ داد. برای اطلاعات بیشتر کنسول را بررسی کنید",
+    "noRecordsSelected": "شما هیچ رکوردی انتخاب نکرده‌اید",
+    "theseRecordsWillBeRemoved": "رکورد زیر حذف خواهد شد",
+    "theseRecordsWillBeRemoved_plural": "رکوردهای زیر حذف خواهند شد",
+    "pickSomeFirstToRemove": "برای حذف رکوردها، ابتدا باید آنها را انتخاب کنید",
+    "error404Resource": "منبع با شناسه‌ی {{resourceId}} یافت نشد",
+    "error404Action": "منبع با شناسه‌ی {{resourceId}} عملیاتی با نام {{actionName}} ندارد یا شما مجاز به استفاده از آن نیستید!",
+    "error404Record": "منبع با شناسه‌ی {{resourceId}} رکوردی با شناسه‌ی {{recordId}} ندارد یا شما مجاز به استفاده از آن نیستید!",
+    "seeConsoleForMore": "برای جزئیات بیشتر کنسول توسعه را بررسی کنید...",
+    "noActionComponent": "شما باید کامپوننت عملیاتی را برای اقدام خود پیاده‌سازی کنید",
+    "noRecordsInResource": "هیچ رکوردی در این منبع وجود ندارد",
+    "noRecords": "بدون رکورد",
+    "confirmDelete": "آیا واقعاً می‌خواهید این مورد را حذف کنید؟",
+    "welcomeOnBoard_title": "خوش آمدید!",
+    "welcomeOnBoard_subtitle": "اکنون شما یکی از ما هستید! چند نکته برای شروع آماده کرده‌ایم:",
+    "addingResources_title": "افزودن منابع",
+    "addingResources_subtitle": "نحوه افزودن منابع جدید به نوار کناری را بیاموزید",
+    "customizeResources_title": "سفارشی‌سازی منابع",
+    "customizeResources_subtitle": "تعریف رفتار، ویژگی‌ها و بیشتر...",
+    "customizeActions_title": "سفارشی‌سازی اقدامات",
+    "customizeActions_subtitle": "اصلاح اقدامات موجود یا افزودن اقدامات سفارشی",
+    "writeOwnComponents_title": "نوشتن کامپوننت‌ها",
+    "writeOwnComponents_subtitle": "نحوه تغییر ظاهر و حس AdminJS",
+    "customDashboard_title": "داشبورد سفارشی",
+    "customDashboard_subtitle": "نحوه سفارشی‌سازی صفحه اصلی AdminJS را بیاموزید",
+    "roleBasedAccess_title": "کنترل دسترسی مبتنی بر نقش",
+    "roleBasedAccess_subtitle": "تعریف مجوزهای دسترسی برای کاربران AdminJS",
+    "community_title": "پیوستن به جامعه دیسکورد",
+    "community_subtitle": "با سازندگان AdminJS و سایر کاربران AdminJS گفتگو کنید",
+    "foundBug_title": "خطایی پیدا کردید؟ نیاز به بهبود دارید؟",
+    "foundBug_subtitle": "یک مسئله در مخزن GitHub ما مطرح کنید",
+    "needMoreSolutions_title": "نیاز به راه‌حل‌های پیشرفته‌تر دارید؟",
+    "needMoreSolutions_subtitle": "ما اینجا هستیم تا طراحی UX/UI زیبا و نرم‌افزار سفارشی‌شده (نه تنها) بر پایه AdminJS به شما ارائه دهیم",
+    "invalidCredentials": "ایمیل و/یا رمز عبور اشتباه است",
+    "keyPlaceholder": "کلید",
+    "valuePlaceholder": "مقدار",
+    "initialKey": "کلید-{{number}}",
+    "keyInUse": "کلیدهای شیء باید یکتا باشند",
+    "keyValuePropertyDefaultDescription": "همه مقادیر به صورت متن ذخیره می‌شوند. کلیدها باید یکتا باشند، کلیدهای تکراری ذخیره نخواهند شد.",
+    "pageNotFound_title": "صفحه یافت نشد",
+    "pageNotFound_subtitle": "صفحه <strong>\"{{pageName}}\"</strong> وجود ندارد",
+    "componentNotFound_title": "کامپوننت مشخص نشده است",
+    "componentNotFound_subtitle": "شما باید کامپوننتی را مشخص کنید که این عنصر را رندر کند"
+  }
+}
+
