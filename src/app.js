@@ -19,7 +19,7 @@ app.use(morgan("dev"));
 // Static uploads for serving product images
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-app.get("/health", (req, res) => {
+app.get(["/health", "/"], (req, res) => {
   res.json({ status: "ok", uptime: process.uptime() });
 });
 
@@ -27,6 +27,7 @@ app.get("/health", (req, res) => {
 app.use("/api/v1", express.json());
 app.use("/api/v1", express.urlencoded({ extended: true }));
 app.use("/api/v1", routes);
+
 // 404 and error handlers
 app.use(notFound);
 app.use(errorHandler);
