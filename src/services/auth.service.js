@@ -2,7 +2,7 @@
 
 const crypto = require("crypto");
 const { user, role, permission } = require("../models");
-const { signToken } = require("../middlewares/auth");
+const { signToken } = require("@/middlewares/auth");
 
 function hashPassword(password) {
   return crypto.createHash("sha256").update(password).digest("hex");
@@ -10,7 +10,9 @@ function hashPassword(password) {
 
 exports.login = async (userName, password) => {
   const passwordHash = hashPassword(password);
-  const found = await user.findOne({ where: { userName, password: passwordHash } });
+  const found = await user.findOne({
+    where: { userName, password: passwordHash },
+  });
   if (!found) return null;
 
   // load roles and permissions to embed a snapshot in token
@@ -20,7 +22,9 @@ exports.login = async (userName, password) => {
         model: role,
         as: "roles",
         through: { attributes: [] },
-        include: [{ model: permission, as: "permissions", through: { attributes: [] } }],
+        include: [
+          { model: permission, as: "permissions", through: { attributes: [] } },
+        ],
       },
     ],
   });
@@ -36,4 +40,3 @@ exports.login = async (userName, password) => {
   delete safe.password;
   return { token, user: safe };
 };
-
