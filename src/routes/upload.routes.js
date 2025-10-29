@@ -35,7 +35,22 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const MAX_SIZE_MB = parseInt(process.env.UPLOAD_MAX_SIZE_MB || "10", 10);
+const upload = multer({
+  storage,
+  limits: { fileSize: MAX_SIZE_MB * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const ok = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif",
+      "image/svg+xml",
+    ].includes(file.mimetype);
+    if (!ok) return cb(new Error("Invalid file type"));
+    cb(null, true);
+  },
+});
 
 // Single file upload: field name "file"
 router.post("/upload", upload.single("file"), async (req, res, next) => {

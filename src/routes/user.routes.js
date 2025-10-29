@@ -19,4 +19,37 @@ router.post(
   controller.create
 );
 
+router.get(
+  "/:id",
+  authenticate,
+  authorizePermissions("user.read"),
+  controller.get
+);
+router.put(
+  "/:id",
+  authenticate,
+  authorizePermissions("user.update"),
+  controller.update
+);
+router.delete(
+  "/:id",
+  authenticate,
+  authorizePermissions("user.delete"),
+  controller.remove
+);
+
+// User roles
+router.get(
+  "/:id/roles",
+  authenticate,
+  authorizePermissions("user.read"),
+  controller.getRoles
+);
+router.put(
+  "/:id/roles",
+  authenticate,
+  authorizePermissions("user_role.update"),
+  controller.setRoles
+);
+
 module.exports = router;

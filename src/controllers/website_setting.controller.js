@@ -1,0 +1,68 @@
+"use strict";
+
+const Joi = require("joi");
+const service = require("@/services/website_setting.service");
+
+const idParam = Joi.object({ id: Joi.string().uuid().required() });
+
+const createSchema = Joi.object({
+  name: Joi.string().min(1).max(200).required(),
+  title: Joi.string().allow("", null),
+  description: Joi.string().allow("", null),
+  image: Joi.string().allow("", null),
+  attribute: Joi.string().allow("", null),
+  href: Joi.string().allow("", null),
+  kindID: Joi.string().uuid().required(),
+  isActive: Joi.boolean().default(true),
+});
+
+const updateSchema = createSchema.fork(["name", "kindID"], (s) => s.optional());
+
+exports.list = async (req, res, next) => {
+  try {
+    const { q, kindID, isActive, limit, offset } = req.query;
+    const result = await service.list({ q, kindID, isActive: typeof isActive === "undefined" ? undefined : isActive === "true" || isActive === true, limit, offset });
+    res.json(result);
+  } catch (err) { next(err); }
+};
+
+exports.get = async (req, res, next) => {
+  try {
+    const { error } = idParam.validate(req.params);
+    if (error) return res.status(400).json({ message: error.message });
+    const item = await service.get(req.params.id);
+    if (!item) return res.status(404).json({ message: "Not Found" });
+    res.json(item);
+  } catch (err) { next(err); }
+};
+
+exports.create = async (req, res, next) => {
+  try {
+    const { error, value } = createSchema.validate(req.body);
+    if (error) return res.status(400).json({ message: error.message });
+    const created = await service.create(value);
+    res.status(201).json(created);
+  } catch (err) { next(err); }
+};
+
+exports.update = async (req, res, next) => {
+  try {
+    const { error: pErr } = idParam.validate(req.params);
+    if (pErr) return res.status(400).json({ message: pErr.message });
+    const { error, value } = updateSchema.validate(req.body);
+    if (error) return res.status(400).json({ message: error.message });
+    const updated = await service.update(req.params.id, value);
+    res.json(updated);
+  } catch (err) { next(err); }
+};
+
+exports.remove = async (req, res, next) => {
+  try {
+    const { error } = idParam.validate(req.params);
+    if (error) return res.status(400).json({ message: error.message });
+    const n = await service.remove(req.params.id);
+    if (!n) return res.status(404).json({ message: "Not Found" });
+    res.json({ message: "Deleted" });
+  } catch (err) { next(err); }
+};
+

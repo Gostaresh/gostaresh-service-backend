@@ -20,3 +20,23 @@ exports.login = async (req, res, next) => {
     next(err);
   }
 };
+
+// Stateless JWT logout: client should delete token.
+// Kept for symmetry and future token revocation support.
+exports.logout = async (req, res, next) => {
+  try {
+    // If later we add token blacklist, we can revoke here using jti
+    return res.json({ message: "Logged out" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.me = async (req, res, next) => {
+  try {
+    if (!req.auth?.sub) return res.status(401).json({ message: "Unauthorized" });
+    const { user } = require("@/models");
+    const u = await user.findByPk(req.auth.sub, { attributes: { exclude: ["password"] } });
+    res.json({ auth: { sub: req.auth.sub, roles: req.auth.roles || [], perms: Array.from(req.auth.perms || []) }, user: u });
+  } catch (err) { next(err); }
+};

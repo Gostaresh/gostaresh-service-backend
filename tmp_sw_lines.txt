@@ -1,0 +1,601 @@
+    1: "use strict";
+    2: 
+    3: const pkg = require("../../package.json");
+    4: 
+    5: // Static base spec (you can extend later or switch to swagger-jsdoc scanning)
+    6: const swaggerSpec = {
+    7:   openapi: "3.0.3",
+    8:   info: {
+    9:     title: "Gostaresh Service Admin API",
+   10:     version: pkg.version || "1.0.0",
+   11:     description: "API documentation for the admin panel",
+   12:   },
+   13:   servers: [
+   14:     { url: "/api/v1", description: "Main API" },
+   15:     { url: "/", description: "Public endpoints (slug)" },
+   16:   ],
+   17:   tags: [
+   18:     { name: "Auth" },
+   19:     { name: "Users" },
+   20:     { name: "Products" },
+   21:     { name: "Categories" },
+   22:     { name: "Brands" },
+   23:     { name: "Galleries" },
+   24:     { name: "Articles" },
+   25:     { name: "Upload" },
+   26:     { name: "Utils" },
+   27:     { name: "WebsiteSettings" },
+   28:     { name: "WebsiteSettingKinds" },
+   29:     { name: "Warranty" },
+   30:     { name: "Public" },
+   31:   ],
+   32:   components: {
+   33:     securitySchemes: {
+   34:       BearerAuth: {
+   35:         type: "http",
+   36:         scheme: "bearer",
+   37:         bearerFormat: "JWT",
+   38:       },
+   39:     },
+   40:     schemas: {
+   41:       LoginRequest: {
+   42:         type: "object",
+   43:         required: ["userName", "password"],
+   44:         properties: {
+   45:           userName: { type: "string", example: "admin" },
+   46:           password: { type: "string", example: "admin" },
+   47:         },
+   48:       },
+   49:       LoginResponse: {
+   50:         type: "object",
+   51:         properties: {
+   52:           token: { type: "string" },
+   53:           user: { type: "object" },
+   54:         },
+   55:       },
+   56:       ErrorResponse: {
+   57:         type: "object",
+   58:         properties: { message: { type: "string" } },
+   59:       },
+   60:       PageResult: {
+   61:         type: "object",
+   62:         properties: {
+   63:           items: { type: "array", items: { type: "object" } },
+   64:           total: { type: "integer" },
+   65:         },
+   66:       },
+   67:       User: {
+   68:         type: "object",
+   69:         properties: {
+   70:           id: { type: "string", format: "uuid" },
+   71:           firstName: { type: "string" },
+   72:           lastName: { type: "string" },
+   73:           userName: { type: "string" },
+   74:           email: { type: "string" },
+   75:           isActive: { type: "boolean" },
+   76:         },
+   77:       },
+   78:       Product: {
+   79:         type: "object",
+   80:         properties: {
+   81:           id: { type: "string", format: "uuid" },
+   82:           name: { type: "string" },
+   83:           slug: { type: "string" },
+   84:           price: { type: "integer" },
+   85:           isActive: { type: "boolean" },
+   86:         },
+   87:       },
+   88:       Brand: {
+   89:         type: "object",
+   90:         properties: {
+   91:           id: { type: "string", format: "uuid" },
+   92:           name: { type: "string" },
+   93:           description: { type: "string" },
+   94:           image: { type: "string" },
+   95:           slug: { type: "string" },
+   96:           isActive: { type: "boolean" },
+   97:         },
+   98:       },
+   99:       Category: {
+  100:         type: "object",
+  101:         properties: {
+  102:           id: { type: "string", format: "uuid" },
+  103:           name: { type: "string" },
+  104:           parentID: { type: "string", format: "uuid", nullable: true },
+  105:           slug: { type: "string" },
+  106:           isActive: { type: "boolean" },
+  107:         },
+  108:       },
+  109:       Gallery: {
+  110:         type: "object",
+  111:         properties: {
+  112:           id: { type: "string", format: "uuid" },
+  113:           productID: { type: "string", format: "uuid" },
+  114:           fileName: { type: "string" },
+  115:           path: { type: "string" },
+  116:           isMain: { type: "boolean" },
+  117:           isActive: { type: "boolean" },
+  118:         },
+  119:       },
+  120:       Article: {
+  121:         type: "object",
+  122:         properties: {
+  123:           id: { type: "string", format: "uuid" },
+  124:           title: { type: "string" },
+  125:           slug: { type: "string" },
+  126:           articleTypeID: { type: "string", format: "uuid" },
+  127:           userID: { type: "string", format: "uuid" },
+  128:           isActive: { type: "boolean" },
+  129:         },
+  130:       },
+  131:       ArticleType: {
+  132:         type: "object",
+  133:         properties: {
+  134:           id: { type: "string", format: "uuid" },
+  135:           name: { type: "string", enum: ["blog", "news", "education"] },
+  136:           isActive: { type: "boolean" },
+  137:         },
+  138:       },
+  139:       WebsiteSetting: {
+  140:         type: "object",
+  141:         properties: {
+  142:           id: { type: "string", format: "uuid" },
+  143:           name: { type: "string" },
+  144:           title: { type: "string" },
+  145:           description: { type: "string" },
+  146:           image: { type: "string" },
+  147:           attribute: { type: "string" },
+  148:           href: { type: "string" },
+  149:           kindID: { type: "string", format: "uuid" },
+  150:           isActive: { type: "boolean" },
+  151:         },
+  152:       },
+  153:       WebsiteSettingKind: {
+  154:         type: "object",
+  155:         properties: {
+  156:           id: { type: "string", format: "uuid" },
+  157:           name: { type: "string" },
+  158:           isActive: { type: "boolean" },
+  159:         },
+  160:       },
+  161:       UploadSingleResponse: {
+  162:         type: "object",
+  163:         properties: {
+  164:           path: { type: "string" },
+  165:           fileName: { type: "string" },
+  166:           originalName: { type: "string" },
+  167:           mimetype: { type: "string" },
+  168:           size: { type: "integer" },
+  169:         },
+  170:       },
+  171:       UploadMultiResponse: {
+  172:         type: "object",
+  173:         properties: {
+  174:           files: { type: "array", items: { $ref: "#/components/schemas/UploadSingleResponse" } },
+  175:         },
+  176:       },
+  177:       CreateProductRequest: {
+  178:         type: "object",
+  179:         required: ["name", "price"],
+  180:         properties: {
+  181:           name: { type: "string" },
+  182:           shortDescription: { type: "string" },
+  183:           longDescription: { type: "string" },
+  184:           price: { type: "integer" },
+  185:           statusID: { type: "string", format: "uuid" },
+  186:           brandID: { type: "string", format: "uuid" },
+  187:           categoryID: { type: "string", format: "uuid" },
+  188:           slug: { type: "string" },
+  189:           isActive: { type: "boolean" },
+  190:         },
+  191:       },
+  192:       UpdateProductRequest: { allOf: [ { $ref: "#/components/schemas/CreateProductRequest" } ] },
+  193:       CreateBrandRequest: {
+  194:         type: "object",
+  195:         required: ["name"],
+  196:         properties: {
+  197:           name: { type: "string" },
+  198:           description: { type: "string" },
+  199:           image: { type: "string" },
+  200:           slug: { type: "string" },
+  201:           isActive: { type: "boolean" },
+  202:         },
+  203:       },
+  204:       UpdateBrandRequest: { allOf: [ { $ref: "#/components/schemas/CreateBrandRequest" } ] },
+  205:       CreateCategoryRequest: {
+  206:         type: "object",
+  207:         required: ["name"],
+  208:         properties: {
+  209:           name: { type: "string" },
+  210:           parentID: { type: "string", format: "uuid", nullable: true },
+  211:           slug: { type: "string" },
+  212:           isActive: { type: "boolean" },
+  213:         },
+  214:       },
+  215:       UpdateCategoryRequest: { allOf: [ { $ref: "#/components/schemas/CreateCategoryRequest" } ] },
+  216:       CreateArticleRequest: {
+  217:         type: "object",
+  218:         required: ["title"],
+  219:         properties: {
+  220:           title: { type: "string" },
+  221:           shortContent: { type: "string" },
+  222:           longContent: { type: "string" },
+  223:           articleTypeID: { type: "string", format: "uuid" },
+  224:           type: { type: "string", enum: ["blog","news","education"] },
+  225:           slug: { type: "string" },
+  226:           isActive: { type: "boolean" },
+  227:         },
+  228:       },
+  229:       UpdateArticleRequest: { allOf: [ { $ref: "#/components/schemas/CreateArticleRequest" } ] },
+  230:       CreateUserRequest: {
+  231:         type: "object",
+  232:         required: ["userName", "password"],
+  233:         properties: {
+  234:           firstName: { type: "string" },
+  235:           lastName: { type: "string" },
+  236:           userName: { type: "string" },
+  237:           email: { type: "string" },
+  238:           password: { type: "string" },
+  239:         },
+  240:       },
+  241:       GalleryAddRequest: {
+  242:         type: "object",
+  243:         required: ["path", "fileName"],
+  244:         properties: {
+  245:           path: { type: "string", description: "Relative path under /uploads returned by upload service" },
+  246:           fileName: { type: "string" },
+  247:           isMain: { type: "boolean" },
+  248:           isActive: { type: "boolean" },
+  249:         },
+  250:       },
+  251:       CreateWebsiteSettingRequest: {
+  252:         type: "object",
+  253:         required: ["name", "kindID"],
+  254:         properties: {
+  255:           name: { type: "string" },
+  256:           title: { type: "string" },
+  257:           description: { type: "string" },
+  258:           image: { type: "string" },
+  259:           attribute: { type: "string" },
+  260:           href: { type: "string" },
+  261:           kindID: { type: "string", format: "uuid" },
+  262:           isActive: { type: "boolean" },
+  263:         },
+  264:       },
+  265:       UpdateWebsiteSettingRequest: { allOf: [ { $ref: "#/components/schemas/CreateWebsiteSettingRequest" } ] },
+  266:       CreateWebsiteSettingKindRequest: {
+  267:         type: "object",
+  268:         required: ["name"],
+  269:         properties: {
+  270:           name: { type: "string" },
+  271:           isActive: { type: "boolean" },
+  272:         },
+  273:       },
+  274:       UpdateWebsiteSettingKindRequest: { allOf: [ { $ref: "#/components/schemas/CreateWebsiteSettingKindRequest" } ] },
+  275:       SlugPreviewRequest: {
+  276:         type: "object",
+  277:         required: ["model", "source"],
+  278:         properties: {
+  279:           model: { type: "string", enum: ["product","category","brand","article"] },
+  280:           source: { type: "string" },
+  281:           excludeId: { type: "string", format: "uuid" },
+  282:         },
+  283:       },
+  284:       SlugPreviewResponse: {
+  285:         type: "object",
+  286:         properties: { slug: { type: "string" } },
+  287:       },
+  288:     },
+  289:   },
+  290:   paths: {
+  291:     "/auth/login": {
+  292:       post: {
+  293:         tags: ["Auth"],
+  294:         summary: "Login and receive JWT",
+  295:         requestBody: {
+  296:           required: true,
+  297:           content: {
+  298:             "application/json": {
+  299:               schema: { $ref: "#/components/schemas/LoginRequest" },
+  300:             },
+  301:           },
+  302:         },
+  303:         responses: {
+  304:           200: {
+  305:             description: "Successful login",
+  306:             content: {
+  307:               "application/json": {
+  308:                 schema: { $ref: "#/components/schemas/LoginResponse" },
+  309:               },
+  310:             },
+  311:           },
+  312:           401: { description: "Invalid credentials" },
+  313:         },
+  314:       },
+  315:     },
+  316:     "/auth/logout": {
+  317:       post: {
+  318:         tags: ["Auth"],
+  319:         summary: "Logout (stateless)",
+  320:         security: [{ BearerAuth: [] }],
+  321:         responses: { 200: { description: "Logged out" } },
+  322:       },
+  323:     },
+  324:     "/products": {
+  325:       get: {
+  326:         tags: ["Products"],
+  327:         summary: "List products",
+  328:         security: [{ BearerAuth: [] }],
+  329:         parameters: [
+  330:           { in: "query", name: "q", schema: { type: "string" } },
+  331:           { in: "query", name: "brandID", schema: { type: "string", format: "uuid" } },
+  332:           { in: "query", name: "categoryID", schema: { type: "string", format: "uuid" } },
+  333:           { in: "query", name: "statusID", schema: { type: "string", format: "uuid" } },
+  334:           { in: "query", name: "isActive", schema: { type: "boolean" } },
+  335:           { in: "query", name: "limit", schema: { type: "integer", default: 20 } },
+  336:           { in: "query", name: "offset", schema: { type: "integer", default: 0 } },
+  337:         ],
+  338:         responses: {
+  339:           200: {
+  340:             description: "OK",
+  341:             content: {
+  342:               "application/json": {
+  343:                 schema: {
+  344:                   allOf: [ { $ref: "#/components/schemas/PageResult" } ],
+  345:                   properties: { items: { type: "array", items: { $ref: "#/components/schemas/Product" } } },
+  346:                 },
+  347:               },
+  348:             },
+  349:           },
+  350:         },
+  351:       },
+  352:       post: {
+  353:         tags: ["Products"],
+  354:         summary: "Create product",
+  355:         security: [{ BearerAuth: [] }],
+  356:         requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/CreateProductRequest" } } } },
+  357:         responses: { 201: { description: "Created" } },
+  358:       },
+  359:     },
+  360:     "/products/{id}": {
+  361:       get: {
+  362:         tags: ["Products"],
+  363:         summary: "Get product by id",
+  364:         security: [{ BearerAuth: [] }],
+  365:         parameters: [
+  366:           { in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } },
+  367:         ],
+  368:         responses: { 200: { description: "OK" }, 404: { description: "Not Found" } },
+  369:       },
+  370:       put: {
+  371:         tags: ["Products"],
+  372:         summary: "Update product",
+  373:         security: [{ BearerAuth: [] }],
+  374:         parameters: [
+  375:           { in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } },
+  376:         ],
+  377:         requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/UpdateProductRequest" } } } },
+  378:         responses: { 200: { description: "OK" } },
+  379:       },
+  380:       delete: {
+  381:         tags: ["Products"],
+  382:         summary: "Delete product",
+  383:         security: [{ BearerAuth: [] }],
+  384:         parameters: [
+  385:           { in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } },
+  386:         ],
+  387:         responses: { 200: { description: "Deleted" }, 404: { description: "Not Found" } },
+  388:       },
+  389:     },
+  390:     "/product/{slug}": {
+  391:       get: {
+  392:         tags: ["Public"],
+  393:         summary: "Public product by slug",
+  394:         parameters: [
+  395:           { in: "path", name: "slug", required: true, schema: { type: "string" } },
+  396:         ],
+  397:         responses: { 200: { description: "OK" }, 404: { description: "Not Found" } },
+  398:       },
+  399:     },
+  400:     "/article/{slug}": {
+  401:       get: {
+  402:         tags: ["Public"],
+  403:         summary: "Public article by slug",
+  404:         parameters: [
+  405:           { in: "path", name: "slug", required: true, schema: { type: "string" } },
+  406:         ],
+  407:         responses: { 200: { description: "OK" }, 404: { description: "Not Found" } },
+  408:       },
+  409:     },
+  410:     "/brand/{slug}": {
+  411:       get: {
+  412:         tags: ["Public"],
+  413:         summary: "Public brand by slug",
+  414:         parameters: [ { in: "path", name: "slug", required: true, schema: { type: "string" } } ],
+  415:         responses: { 200: { description: "OK" }, 404: { description: "Not Found" } },
+  416:       },
+  417:     },
+  418:     "/category/{slug}": {
+  419:       get: {
+  420:         tags: ["Public"],
+  421:         summary: "Public category by slug",
+  422:         parameters: [ { in: "path", name: "slug", required: true, schema: { type: "string" } } ],
+  423:         responses: { 200: { description: "OK" }, 404: { description: "Not Found" } },
+  424:       },
+  425:     },
+  426: 
+  427:     // Users
+  428:     "/users": {
+  429:       get: {
+  430:         tags: ["Users"],
+  431:         security: [{ BearerAuth: [] }],
+  432:         summary: "List users",
+  433:         parameters: [ { in: "query", name: "limit", schema: { type: "integer" } }, { in: "query", name: "offset", schema: { type: "integer" } } ],
+  434:         responses: { 200: { description: "OK", content: { "application/json": { schema: { allOf: [ { $ref: "#/components/schemas/PageResult" } ], properties: { items: { type: "array", items: { $ref: "#/components/schemas/User" } } } } } } } },
+  435:       },
+  436:       post: {
+  437:         tags: ["Users"],
+  438:         security: [{ BearerAuth: [] }],
+  439:         summary: "Create user",
+  440:         requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/CreateUserRequest" } } } },
+  441:         responses: { 201: { description: "Created" } },
+  442:       },
+  443:     },
+  444: 
+  445:     // Categories
+  446:     "/categories": {
+  447:       get: { tags: ["Categories"], security: [{ BearerAuth: [] }], summary: "List categories", parameters: [ { in: "query", name: "q", schema: { type: "string" } }, { in: "query", name: "parentID", schema: { type: "string", format: "uuid" } }, { in: "query", name: "isActive", schema: { type: "boolean" } }, { in: "query", name: "limit", schema: { type: "integer" } }, { in: "query", name: "offset", schema: { type: "integer" } } ], responses: { 200: { description: "OK", content: { "application/json": { schema: { allOf: [ { $ref: "#/components/schemas/PageResult" } ], properties: { items: { type: "array", items: { $ref: "#/components/schemas/Category" } } } } } } } },
+  448:       post: { tags: ["Categories"], security: [{ BearerAuth: [] }], summary: "Create category", requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/CreateCategoryRequest" } } } }, responses: { 201: { description: "Created" } } },
+  449:     },
+  450:     "/categories/{id}": {
+  451:       get: { tags: ["Categories"], security: [{ BearerAuth: [] }], summary: "Get category", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "OK" }, 404: { description: "Not Found" } } },
+  452:       put: { tags: ["Categories"], security: [{ BearerAuth: [] }], summary: "Update category", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/UpdateCategoryRequest" } } } }, responses: { 200: { description: "OK" } } },
+  453:       delete: { tags: ["Categories"], security: [{ BearerAuth: [] }], summary: "Delete category", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "Deleted" }, 404: { description: "Not Found" } } },
+  454:     },
+  455: 
+  456:     // Brands
+  457:     "/brands": {
+  458:       get: { tags: ["Brands"], security: [{ BearerAuth: [] }], summary: "List brands", parameters: [ { in: "query", name: "q", schema: { type: "string" } }, { in: "query", name: "isActive", schema: { type: "boolean" } }, { in: "query", name: "limit", schema: { type: "integer" } }, { in: "query", name: "offset", schema: { type: "integer" } } ], responses: { 200: { description: "OK", content: { "application/json": { schema: { allOf: [ { $ref: "#/components/schemas/PageResult" } ], properties: { items: { type: "array", items: { $ref: "#/components/schemas/Brand" } } } } } } } },
+  459:       post: { tags: ["Brands"], security: [{ BearerAuth: [] }], summary: "Create brand", requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/CreateBrandRequest" } } } }, responses: { 201: { description: "Created" } } },
+  460:     },
+  461:     "/brands/{id}": {
+  462:       get: { tags: ["Brands"], security: [{ BearerAuth: [] }], summary: "Get brand", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "OK" }, 404: { description: "Not Found" } } },
+  463:       put: { tags: ["Brands"], security: [{ BearerAuth: [] }], summary: "Update brand", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/UpdateBrandRequest" } } } }, responses: { 200: { description: "OK" } } },
+  464:       delete: { tags: ["Brands"], security: [{ BearerAuth: [] }], summary: "Delete brand", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "Deleted" }, 404: { description: "Not Found" } } },
+  465:     },
+  466: 
+  467:     // Galleries
+  468:     "/products/{productId}/galleries": {
+  469:       get: { tags: ["Galleries"], security: [{ BearerAuth: [] }], summary: "List galleries of a product", parameters: [{ in: "path", name: "productId", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "OK" } } },
+  470:       post: { tags: ["Galleries"], security: [{ BearerAuth: [] }], summary: "Add gallery item to product (use /files/upload first)", parameters: [{ in: "path", name: "productId", required: true, schema: { type: "string", format: "uuid" } }], requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/GalleryAddRequest" } } } }, responses: { 201: { description: "Created" } } },
+  471:     },
+  472:     "/galleries/{id}/main": {
+  473:       patch: { tags: ["Galleries"], security: [{ BearerAuth: [] }], summary: "Set image as main", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "OK" } } },
+  474:     },
+  475:     "/galleries/{id}": {
+  476:       patch: { tags: ["Galleries"], security: [{ BearerAuth: [] }], summary: "Update gallery (isActive/isMain)", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], requestBody: { required: true }, responses: { 200: { description: "OK" } } },
+  477:       delete: { tags: ["Galleries"], security: [{ BearerAuth: [] }], summary: "Delete gallery", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "Deleted" }, 404: { description: "Not Found" } } },
+  478:     },
+  479: 
+  480:     // Articles
+  481:     "/articles": {
+  482:       get: { tags: ["Articles"], security: [{ BearerAuth: [] }], summary: "List articles", parameters: [ { in: "query", name: "type", schema: { type: "string", enum: ["blog","news","education"] } }, { in: "query", name: "q", schema: { type: "string" } }, { in: "query", name: "isActive", schema: { type: "boolean" } }, { in: "query", name: "limit", schema: { type: "integer" } }, { in: "query", name: "offset", schema: { type: "integer" } } ], responses: { 200: { description: "OK", content: { "application/json": { schema: { allOf: [ { $ref: "#/components/schemas/PageResult" } ], properties: { items: { type: "array", items: { $ref: "#/components/schemas/Article" } } } } } } } },
+  483:       post: { tags: ["Articles"], security: [{ BearerAuth: [] }], summary: "Create article", requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/CreateArticleRequest" } } } }, responses: { 201: { description: "Created" } } },
+  484:     },
+  485:     "/articles/{id}": {
+  486:       get: { tags: ["Articles"], security: [{ BearerAuth: [] }], summary: "Get article", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "OK" }, 404: { description: "Not Found" } } },
+  487:       put: { tags: ["Articles"], security: [{ BearerAuth: [] }], summary: "Update article", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/UpdateArticleRequest" } } } }, responses: { 200: { description: "OK" } } },
+  488:       delete: { tags: ["Articles"], security: [{ BearerAuth: [] }], summary: "Delete article", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "Deleted" }, 404: { description: "Not Found" } } },
+  489:     },
+  490:     "/articles/types": {
+  491:       get: { tags: ["Articles"], security: [{ BearerAuth: [] }], summary: "List article types", responses: { 200: { description: "OK" } } },
+  492:       post: { tags: ["Articles"], security: [{ BearerAuth: [] }], summary: "Create article type", requestBody: { required: true }, responses: { 201: { description: "Created" } } },
+  493:     },
+  494: 
+  495:     // Upload
+  496:     "/files/upload": {
+  497:       post: {
+  498:         tags: ["Upload"],
+  499:         summary: "Upload single file (returns relative path under /uploads)",
+  500:         requestBody: {
+  501:           required: true,
+  502:           content: {
+  503:             "multipart/form-data": {
+  504:               schema: {
+  505:                 type: "object",
+  506:                 properties: {
+  507:                   scope: { type: "string", example: "products/123" },
+  508:                   partialName: { type: "string" },
+  509:                   file: { type: "string", format: "binary" },
+  510:                 },
+  511:               },
+  512:             },
+  513:           },
+  514:         },
+  515:         responses: { 201: { description: "Uploaded", content: { "application/json": { schema: { $ref: "#/components/schemas/UploadSingleResponse" } } } } },
+  516:       },
+  517:     },
+  518:     "/files/upload/multi": {
+  519:       post: {
+  520:         tags: ["Upload"],
+  521:         summary: "Upload multiple files (returns relative paths under /uploads)",
+  522:         requestBody: {
+  523:           required: true,
+  524:           content: {
+  525:             "multipart/form-data": {
+  526:               schema: {
+  527:                 type: "object",
+  528:                 properties: {
+  529:                   scope: { type: "string", example: "products/123" },
+  530:                   files: { type: "array", items: { type: "string", format: "binary" } },
+  531:                 },
+  532:               },
+  533:             },
+  534:           },
+  535:         },
+  536:         responses: { 201: { description: "Uploaded", content: { "application/json": { schema: { $ref: "#/components/schemas/UploadMultiResponse" } } } } },
+  537:       },
+  538:     },
+  539:     "/files/delete": {
+  540:       delete: {
+  541:         tags: ["Upload"],
+  542:         summary: "Delete a single file by path or scope+fileName",
+  543:         parameters: [ { in: "query", name: "path", schema: { type: "string" } }, { in: "query", name: "scope", schema: { type: "string" } }, { in: "query", name: "fileName", schema: { type: "string" } } ],
+  544:         responses: { 200: { description: "Deleted" }, 404: { description: "Not Found" } },
+  545:       },
+  546:     },
+  547:     "/files/delete-scope": {
+  548:       delete: {
+  549:         tags: ["Upload"],
+  550:         summary: "Delete a whole scope directory",
+  551:         parameters: [ { in: "query", name: "scope", required: true, schema: { type: "string" } } ],
+  552:         responses: { 200: { description: "Scope deleted" } },
+  553:       },
+  554:     },
+  555: 
+  556:     // Warranty (public inquiry)
+  557:     "/warranty/inquiry/{serial}": {
+  558:       get: {
+  559:         tags: ["Warranty"],
+  560:         summary: "Public warranty inquiry by serial",
+  561:         parameters: [ { in: "path", name: "serial", required: true, schema: { type: "string" } } ],
+  562:         responses: { 200: { description: "OK" }, 404: { description: "Not Found" } },
+  563:       },
+  564:     },
+  565: 
+  566:     // Website Settings
+  567:     "/website-settings": {
+  568:       get: { tags: ["WebsiteSettings"], security: [{ BearerAuth: [] }], summary: "List website settings", parameters: [ { in: "query", name: "q", schema: { type: "string" } }, { in: "query", name: "kindID", schema: { type: "string", format: "uuid" } }, { in: "query", name: "isActive", schema: { type: "boolean" } }, { in: "query", name: "limit", schema: { type: "integer" } }, { in: "query", name: "offset", schema: { type: "integer" } } ], responses: { 200: { description: "OK" } } },
+  569:       post: { tags: ["WebsiteSettings"], security: [{ BearerAuth: [] }], summary: "Create website setting", requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/CreateWebsiteSettingRequest" } } } }, responses: { 201: { description: "Created" } } },
+  570:     },
+  571:     "/website-settings/{id}": {
+  572:       get: { tags: ["WebsiteSettings"], security: [{ BearerAuth: [] }], summary: "Get website setting", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "OK" }, 404: { description: "Not Found" } } },
+  573:       put: { tags: ["WebsiteSettings"], security: [{ BearerAuth: [] }], summary: "Update website setting", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/UpdateWebsiteSettingRequest" } } } }, responses: { 200: { description: "OK" } } },
+  574:       delete: { tags: ["WebsiteSettings"], security: [{ BearerAuth: [] }], summary: "Delete website setting", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "Deleted" }, 404: { description: "Not Found" } } },
+  575:     },
+  576: 
+  577:     // Website Setting Kinds
+  578:     "/website-setting-kinds": {
+  579:       get: { tags: ["WebsiteSettingKinds"], security: [{ BearerAuth: [] }], summary: "List website setting kinds", responses: { 200: { description: "OK" } } },
+  580:       post: { tags: ["WebsiteSettingKinds"], security: [{ BearerAuth: [] }], summary: "Create website setting kind", requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/CreateWebsiteSettingKindRequest" } } } }, responses: { 201: { description: "Created" } } },
+  581:     },
+  582:     "/website-setting-kinds/{id}": {
+  583:       get: { tags: ["WebsiteSettingKinds"], security: [{ BearerAuth: [] }], summary: "Get website setting kind", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "OK" }, 404: { description: "Not Found" } } },
+  584:       put: { tags: ["WebsiteSettingKinds"], security: [{ BearerAuth: [] }], summary: "Update website setting kind", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/UpdateWebsiteSettingKindRequest" } } } }, responses: { 200: { description: "OK" } } },
+  585: 
+  586:     // Utils
+  587:     "/utils/slug/preview": {
+  588:       post: {
+  589:         tags: ["Utils"],
+  590:         security: [{ BearerAuth: [] }],
+  591:         summary: "Generate unique slug preview",
+  592:         requestBody: { required: true, content: { "application/json": { schema: { $ref: "#/components/schemas/SlugPreviewRequest" } } } },
+  593:         responses: { 200: { description: "OK", content: { "application/json": { schema: { $ref: "#/components/schemas/SlugPreviewResponse" } } } } },
+  594:       },
+  595:     },
+  596:       delete: { tags: ["WebsiteSettingKinds"], security: [{ BearerAuth: [] }], summary: "Delete website setting kind", parameters: [{ in: "path", name: "id", required: true, schema: { type: "string", format: "uuid" } }], responses: { 200: { description: "Deleted" }, 404: { description: "Not Found" } } },
+  597:     },
+  598:   },
+  599: };
+  600: 
+  601: module.exports = swaggerSpec;

@@ -16,6 +16,10 @@ module.exports = {
       description: {
         type: Sequelize.TEXT,
       },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       slug: {
         type: Sequelize.STRING,
         allowNull: false,
