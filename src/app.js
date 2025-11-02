@@ -1,5 +1,6 @@
 "use strict";
 
+require("module-alias/register");
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
@@ -15,8 +16,22 @@ const publicRoutes = require("@/routes/public.routes");
 const { notFound, errorHandler } = require("@/middlewares/error");
 
 const app = express();
+// Base security headers (tuned for Swagger UI compatibility)
+app.use(
+  helmet({
+    // Swagger UI uses inline styles/scripts and same-origin assets
+    contentSecurityPolicy: false,
+    // Avoid COEP restrictions blocking Swagger assets
+    crossOriginEmbedderPolicy: false,
+    // Avoid Origin-Agent-Cluster mismatch across pages
+    originAgentCluster: false,
+  })
+);
 
-app.use(helmet());
+// JSON / URL-encoded body limits
+// Keep existing strategy: attach parsers for API prefix below
+
+// CORS (allow per-request origin, keep common methods/headers)
 const corsOptions = {
   origin: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
@@ -24,7 +39,6 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 // Ensure CORS preflight (OPTIONS) handled for all routes
-// Express v5 uses path-to-regexp@6; use RegExp instead of bare '*'
 app.options(/.*/, cors(corsOptions));
 app.use(assignReqId);
 // Skip chatty routes from verbose logs

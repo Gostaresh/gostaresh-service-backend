@@ -56,6 +56,20 @@ const swaggerSpec = {
           user: { type: "object" },
         },
       },
+      MeResponse: {
+        type: "object",
+        properties: {
+          auth: {
+            type: "object",
+            properties: {
+              sub: { type: "string", description: "User ID (subject)" },
+              roles: { type: "array", items: { type: "string" } },
+              perms: { type: "array", items: { type: "string" } },
+            },
+          },
+          user: { $ref: "#/components/schemas/User" },
+        },
+      },
       ErrorResponse: {
         type: "object",
         properties: { message: { type: "string" } },
@@ -352,6 +366,24 @@ const swaggerSpec = {
         summary: "Logout (stateless)",
         security: [{ BearerAuth: [] }],
         responses: { 200: { description: "Logged out" } },
+      },
+    },
+    "/auth/me": {
+      get: {
+        tags: ["Auth"],
+        summary: "Get current authenticated user",
+        security: [{ BearerAuth: [] }],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/MeResponse" },
+              },
+            },
+          },
+          401: { description: "Unauthorized" },
+        },
       },
     },
     "/products": {

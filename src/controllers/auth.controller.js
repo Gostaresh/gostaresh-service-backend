@@ -13,6 +13,7 @@ exports.login = async (req, res, next) => {
     const { error, value } = loginSchema.validate(req.body);
     if (error) return res.status(400).json({ message: error.message });
     const result = await authService.login(value.userName, value.password);
+    res.setHeader["Authorization"] = "Bearer " + result.token;
     if (!result)
       return res.status(401).json({ message: "Invalid credentials" });
     res.json(result);
@@ -34,9 +35,21 @@ exports.logout = async (req, res, next) => {
 
 exports.me = async (req, res, next) => {
   try {
-    if (!req.auth?.sub) return res.status(401).json({ message: "Unauthorized" });
+    if (!req.auth?.sub)
+      return res.status(401).json({ message: "Unauthorized" });
     const { user } = require("@/models");
-    const u = await user.findByPk(req.auth.sub, { attributes: { exclude: ["password"] } });
-    res.json({ auth: { sub: req.auth.sub, roles: req.auth.roles || [], perms: Array.from(req.auth.perms || []) }, user: u });
-  } catch (err) { next(err); }
+    const u = await user.findByPk(req.auth.sub, {
+      attributes: { exclude: ["password"] },
+    });
+    res.json({
+      auth: {
+        sub: req.auth.sub,
+        roles: req.auth.roles || [],
+        perms: Array.from(req.auth.perms || []),
+      },
+      user: u,
+    });
+  } catch (err) {
+    next(err);
+  }
 };
