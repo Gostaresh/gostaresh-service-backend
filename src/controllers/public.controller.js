@@ -57,26 +57,6 @@ exports.articleBySlug = async (req, res, next) => {
   }
 };
 
-exports.serviceCenterList = async (req, res, next) => {
-  try {
-    const { q, city, primary, limit, offset } = req.query;
-    const result = await serviceCenterService.list({
-      q,
-      city,
-      primary:
-        typeof primary === "undefined"
-          ? undefined
-          : primary === "true" || primary === true,
-      isActive: true,
-      limit,
-      offset,
-    });
-    res.json(result);
-  } catch (err) {
-    next(err);
-  }
-};
-
 exports.serviceCenterBySlug = async (req, res, next) => {
   try {
     const { error } = slugSchema.validate(req.params);

@@ -8,5 +8,6 @@ const router = Router();
 // Public content endpoints (no auth)
 router.get("/content", controller.list);
 router.get("/content/:key", controller.get);
+router.get("/service-centers", controller.serviceCenterList);
 
 module.exports = router;
