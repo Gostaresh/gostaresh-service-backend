@@ -5,6 +5,7 @@ const productService = require("@/services/product.service");
 const brandService = require("@/services/brand.service");
 const categoryService = require("@/services/category.service");
 const articleService = require("@/services/article.service");
+const serviceCenterService = require("@/services/service_center.service");
 
 const slugSchema = Joi.object({ slug: Joi.string().min(1).max(200).required() });
 
@@ -56,3 +57,35 @@ exports.articleBySlug = async (req, res, next) => {
   }
 };
 
+exports.serviceCenterList = async (req, res, next) => {
+  try {
+    const { q, city, primary, limit, offset } = req.query;
+    const result = await serviceCenterService.list({
+      q,
+      city,
+      primary:
+        typeof primary === "undefined"
+          ? undefined
+          : primary === "true" || primary === true,
+      isActive: true,
+      limit,
+      offset,
+    });
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.serviceCenterBySlug = async (req, res, next) => {
+  try {
+    const { error } = slugSchema.validate(req.params);
+    if (error) return res.status(400).json({ message: error.message });
+    const item = await serviceCenterService.getBySlug(req.params.slug);
+    if (!item || !item.isActive)
+      return res.status(404).json({ message: "Not Found" });
+    res.json(item);
+  } catch (err) {
+    next(err);
+  }
+};
