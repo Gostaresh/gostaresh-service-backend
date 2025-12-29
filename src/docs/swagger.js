@@ -29,6 +29,7 @@ const swaggerSpec = {
     { name: "Utils" },
     { name: "WebsiteSettings" },
     { name: "WebsiteSettingKinds" },
+    { name: "ServiceCenters" },
     { name: "Warranty" },
     { name: "Public" },
   ],
@@ -182,6 +183,43 @@ const swaggerSpec = {
           isActive: { type: "boolean" },
         },
       },
+      ServiceCenterContact: {
+        type: "object",
+        properties: {
+          id: { type: "string", format: "uuid" },
+          title: { type: "string" },
+          value: { type: "string" },
+        },
+      },
+      Service: {
+        type: "object",
+        properties: {
+          id: { type: "string", format: "uuid" },
+          value: { type: "string" },
+        },
+      },
+      ServiceCenter: {
+        type: "object",
+        properties: {
+          id: { type: "string" },
+          slug: { type: "string" },
+          title: { type: "string" },
+          city: { type: "string" },
+          tagline: { type: "string" },
+          summary: { type: "string" },
+          image: { type: "string" },
+          primary: { type: "boolean" },
+          contacts: {
+            type: "array",
+            items: { $ref: "#/components/schemas/ServiceCenterContact" },
+          },
+          services: {
+            type: "array",
+            items: { $ref: "#/components/schemas/Service" },
+          },
+          isActive: { type: "boolean" },
+        },
+      },
       UploadSingleResponse: {
         type: "object",
         properties: {
@@ -311,10 +349,32 @@ const swaggerSpec = {
           isActive: { type: "boolean" },
         },
       },
+      CreateServiceCenterRequest: {
+        type: "object",
+        required: ["title"],
+        properties: {
+          slug: { type: "string" },
+          title: { type: "string" },
+          city: { type: "string" },
+          tagline: { type: "string" },
+          summary: { type: "string" },
+          image: { type: "string" },
+          primary: { type: "boolean" },
+          contacts: {
+            type: "array",
+            items: { $ref: "#/components/schemas/ServiceCenterContact" },
+          },
+          services: { type: "array", items: { type: "string" } },
+          isActive: { type: "boolean" },
+        },
+      },
       UpdateWebsiteSettingKindRequest: {
         allOf: [
           { $ref: "#/components/schemas/CreateWebsiteSettingKindRequest" },
         ],
+      },
+      UpdateServiceCenterRequest: {
+        allOf: [{ $ref: "#/components/schemas/CreateServiceCenterRequest" }],
       },
       SlugPreviewRequest: {
         type: "object",
@@ -587,6 +647,111 @@ const swaggerSpec = {
     },
     "/product-statuses": {
       get: { tags: ["ProductStatuses"], security: [{ BearerAuth: [] }], summary: "List product statuses", responses: { 200: { description: "OK" } } },
+    },
+    "/service-centers": {
+      get: {
+        tags: ["ServiceCenters"],
+        security: [{ BearerAuth: [] }],
+        summary: "List service centers",
+        parameters: [
+          { in: "query", name: "q", schema: { type: "string" } },
+          { in: "query", name: "city", schema: { type: "string" } },
+          { in: "query", name: "primary", schema: { type: "boolean" } },
+          { in: "query", name: "isActive", schema: { type: "boolean" } },
+          { in: "query", name: "limit", schema: { type: "integer" } },
+          { in: "query", name: "offset", schema: { type: "integer" } },
+        ],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              "application/json": {
+                schema: {
+                  allOf: [{ $ref: "#/components/schemas/PageResult" }],
+                  properties: {
+                    items: {
+                      type: "array",
+                      items: { $ref: "#/components/schemas/ServiceCenter" },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      post: {
+        tags: ["ServiceCenters"],
+        security: [{ BearerAuth: [] }],
+        summary: "Create service center",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/CreateServiceCenterRequest" },
+            },
+          },
+        },
+        responses: { 201: { description: "Created" } },
+      },
+    },
+    "/service-centers/{id}": {
+      get: {
+        tags: ["ServiceCenters"],
+        security: [{ BearerAuth: [] }],
+        summary: "Get service center",
+        parameters: [
+          {
+            in: "path",
+            name: "id",
+            required: true,
+            schema: { type: "string" },
+          },
+        ],
+        responses: {
+          200: { description: "OK" },
+          404: { description: "Not Found" },
+        },
+      },
+      put: {
+        tags: ["ServiceCenters"],
+        security: [{ BearerAuth: [] }],
+        summary: "Update service center",
+        parameters: [
+          {
+            in: "path",
+            name: "id",
+            required: true,
+            schema: { type: "string" },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/UpdateServiceCenterRequest" },
+            },
+          },
+        },
+        responses: { 200: { description: "OK" } },
+      },
+      delete: {
+        tags: ["ServiceCenters"],
+        security: [{ BearerAuth: [] }],
+        summary: "Delete service center",
+        parameters: [
+          {
+            in: "path",
+            name: "id",
+            required: true,
+            schema: { type: "string" },
+          },
+        ],
+        responses: {
+          200: { description: "Deleted" },
+          404: { description: "Not Found" },
+        },
+      },
     },
     "/category/{slug}": {
       get: {

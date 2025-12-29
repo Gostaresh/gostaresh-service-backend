@@ -1,0 +1,14 @@
+[
+  {
+    "id": "accept",
+    "title": "فرم پذیرش و تعمیر",
+    "file": "/files/acceptance.pdf",
+    "updated": "2025-01-01"
+  },
+  {
+    "id": "pack",
+    "title": "راهنمای بسته‌بندی",
+    "file": "/files/packing-guide.pdf",
+    "updated": "2025-01-01"
+  }
+]

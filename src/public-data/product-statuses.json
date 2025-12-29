@@ -1,0 +1,17 @@
+[
+  {
+    "id": "041a8afd-1653-41be-b2fc-19347727cfe3",
+    "name": "Draft",
+    "isActive": true
+  },
+  {
+    "id": "2f8398f9-bbb6-4af4-bf0a-b4b2511bc9b7",
+    "name": "Published",
+    "isActive": true
+  },
+  {
+    "id": "715567a6-fa02-4faf-a453-ec51cdcdb8d5",
+    "name": "Archived",
+    "isActive": true
+  }
+]

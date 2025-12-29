@@ -1,0 +1,125 @@
+[
+  {
+    "id": "892d27c0-5258-4297-bfde-1fc6a9954aba",
+    "slug": "lenovo-yoga-7-14",
+    "title": "Lenovo Yoga 7 14",
+    "brandSlug": "lenovo",
+    "parentCategory": "laptop",
+    "childCategory": "ultrabook",
+    "priceToman": 48500000,
+    "gallery": [
+      "/images/products/yoga7/1.jpg",
+      "/images/products/yoga7/2.jpg"
+    ],
+    "summary": "اولترابوک سبک با نمایشگر 14 اینچی و باتری پرقدرت",
+    "description": "<p>سری Yoga 7 با طراحی 2-in-1 و کیفیت ساخت عالی برای کار و سفر مناسب است.</p>",
+    "features": [
+      {
+        "key": "CPU",
+        "value": "Intel Core i7"
+      },
+      {
+        "key": "RAM",
+        "value": "16GB"
+      },
+      {
+        "key": "Storage",
+        "value": "512GB SSD"
+      }
+    ],
+    "tags": [
+      "لمسی",
+      "سبک"
+    ],
+    "featured": true,
+    "status": "active",
+    "legacyId": "prd-lnv-yoga7",
+    "name": "Lenovo Yoga 7 14",
+    "shortDescription": "اولترابوک سبک با نمایشگر 14 اینچی و باتری پرقدرت",
+    "longDescription": "<p>سری Yoga 7 با طراحی 2-in-1 و کیفیت ساخت عالی برای کار و سفر مناسب است.</p>",
+    "price": 48500000,
+    "isActive": true,
+    "brandID": "f02205ad-8b0b-4a39-b8ee-f7324fbe1749",
+    "categoryID": "19f5e4aa-098a-463d-ac0d-96e75cdfb42a",
+    "statusID": "2f8398f9-bbb6-4af4-bf0a-b4b2511bc9b7"
+  },
+  {
+    "id": "333be8a6-a19f-4fa4-8a77-7c09b2c71e47",
+    "slug": "asus-rog-strix-g15",
+    "title": "ASUS ROG Strix G15",
+    "brandSlug": "asus",
+    "parentCategory": "laptop",
+    "childCategory": "gaming",
+    "priceToman": 76500000,
+    "gallery": [
+      "/images/products/rog-g15/1.jpg"
+    ],
+    "summary": "لپ‌تاپ گیمینگ قدرتمند با خنک‌کننده پیشرفته",
+    "description": "<p>سری ROG Strix با کارت گرافیک مجزا برای بازی‌های روز طراحی شده است.</p>",
+    "features": [
+      {
+        "key": "GPU",
+        "value": "NVIDIA RTX 4060"
+      },
+      {
+        "key": "Display",
+        "value": "15.6\" 144Hz"
+      }
+    ],
+    "tags": [
+      "RGB",
+      "RTX"
+    ],
+    "featured": false,
+    "status": "active",
+    "legacyId": "prd-asus-rog",
+    "name": "ASUS ROG Strix G15",
+    "shortDescription": "لپ‌تاپ گیمینگ قدرتمند با خنک‌کننده پیشرفته",
+    "longDescription": "<p>سری ROG Strix با کارت گرافیک مجزا برای بازی‌های روز طراحی شده است.</p>",
+    "price": 76500000,
+    "isActive": true,
+    "brandID": "16c928e2-3b15-4ca0-b9fc-6a1e12eacbee",
+    "categoryID": "d8e880c0-01a9-4bd7-9e5a-be7871261fba",
+    "statusID": "2f8398f9-bbb6-4af4-bf0a-b4b2511bc9b7"
+  },
+  {
+    "id": "ca39c3f2-8b7e-4f68-b521-87941ff27fd5",
+    "slug": "apple-iphone-15",
+    "title": "Apple iPhone 15",
+    "brandSlug": "apple",
+    "parentCategory": "phone",
+    "childCategory": "flagship",
+    "priceToman": 96500000,
+    "gallery": [
+      "/images/products/iphone15/1.jpg",
+      "/images/products/iphone15/2.jpg"
+    ],
+    "summary": "گوشی پرچمدار اپل با پردازنده قدرتمند و دوربین پیشرفته",
+    "description": "<p>iPhone 15 با طراحی بهینه و قابلیت‌های نرم‌افزاری جدید عرضه می‌شود.</p>",
+    "features": [
+      {
+        "key": "Chip",
+        "value": "A16"
+      },
+      {
+        "key": "Display",
+        "value": "6.1\" OLED"
+      }
+    ],
+    "tags": [
+      "iOS",
+      "5G"
+    ],
+    "featured": true,
+    "status": "active",
+    "legacyId": "prd-apple-iphone15",
+    "name": "Apple iPhone 15",
+    "shortDescription": "گوشی پرچمدار اپل با پردازنده قدرتمند و دوربین پیشرفته",
+    "longDescription": "<p>iPhone 15 با طراحی بهینه و قابلیت‌های نرم‌افزاری جدید عرضه می‌شود.</p>",
+    "price": 96500000,
+    "isActive": true,
+    "brandID": "d8766898-d5e2-4fea-b290-5074e21791d5",
+    "categoryID": "ff762d98-8aeb-497d-a9d0-4eb25deefda3",
+    "statusID": "2f8398f9-bbb6-4af4-bf0a-b4b2511bc9b7"
+  }
+]

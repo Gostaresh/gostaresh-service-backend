@@ -1,0 +1,218 @@
+{
+  "meta": {
+    "version": 1,
+    "updatedAt": "2025-09-07T08:42:08Z"
+  },
+  "records": [
+    {
+      "serials": ["SN1234567890", "SN-1234567890", "SNID-123456"],
+      "brand": "Lenovo",
+      "model": "IdeaPad 5 15ALC",
+      "purchaseDate": "2024-05-02",
+      "expireDate": "2027-05-02",
+      "warranty": {
+        "value": 24,
+        "unit": "month"
+      },
+      "serviceCenter": "تهران - مرکز خدمات مثال",
+      "status": {
+        "current": "qa",
+        "history": [
+          {
+            "key": "registered",
+            "at": "2023-05-02",
+            "note": "ثبت درخواست"
+          },
+          {
+            "key": "received",
+            "at": "2024-01-12",
+            "note": "دستگاه دریافت شد"
+          },
+          {
+            "key": "diagnosis",
+            "at": "2024-01-14",
+            "note": "عیب‌یابی انجام شد"
+          },
+          {
+            "key": "repair",
+            "at": "2024-01-20",
+            "note": "قطعه تعویض شد"
+          },
+          {
+            "key": "qa",
+            "at": "2024-01-22",
+            "note": "کنترل کیفیت نهایی"
+          }
+        ]
+      },
+      "policyRef": {
+        "brand": "Lenovo",
+        "category": "لپ‌تاپ"
+      }
+    },
+    {
+      "serials": ["AS-TUF-F15-001", "ASTUFF15001"],
+      "brand": "ASUS",
+      "model": "TUF Gaming F15",
+      "purchaseDate": "2024-01-10",
+      "expireDate": "2026-01-10",
+      "warranty": {
+        "value": 24,
+        "unit": "month"
+      },
+      "serviceCenter": "تهران - مرکز خدمات مثال",
+      "status": {
+        "current": "delivered",
+        "history": [
+          {
+            "key": "registered",
+            "at": "2022-01-10",
+            "note": "ثبت درخواست"
+          },
+          {
+            "key": "received",
+            "at": "2023-10-02",
+            "note": "دریافت در مرکز خدمات"
+          },
+          {
+            "key": "diagnosis",
+            "at": "2023-10-03",
+            "note": "عیب‌یابی"
+          },
+          {
+            "key": "repair",
+            "at": "2023-10-07",
+            "note": "تعمیر"
+          },
+          {
+            "key": "qa",
+            "at": "2023-10-08",
+            "note": "کنترل کیفیت"
+          },
+          {
+            "key": "delivered",
+            "at": "2023-10-10",
+            "note": "تحویل به مشتری"
+          }
+        ]
+      },
+      "policyRef": {
+        "brand": "ASUS",
+        "category": "لپ‌تاپ"
+      }
+    },
+    {
+      "serials": ["356789012345678", "IMEI-356789012345678"],
+      "brand": "Samsung",
+      "model": "Galaxy A34",
+      "purchaseDate": "2023-08-01",
+      "expireDate": "2025-02-01",
+      "warranty": {
+        "value": 18,
+        "unit": "month"
+      },
+      "serviceCenter": "تهران - مرکز خدمات مثال",
+      "status": {
+        "current": "received",
+        "history": [
+          {
+            "key": "registered",
+            "at": "2024-09-01",
+            "note": "ثبت"
+          },
+          {
+            "key": "received",
+            "at": "2024-09-03",
+            "note": "دریافت در مرکز خدمات"
+          }
+        ]
+      },
+      "policyRef": {
+        "brand": "Samsung",
+        "category": "موبایل"
+      }
+    },
+    {
+      "serials": ["WD-EXT-1TB-0001"],
+      "brand": "WD",
+      "model": "Elements 1TB",
+      "purchaseDate": "2023-11-11",
+      "expireDate": "2025-11-11",
+      "warranty": {
+        "value": 24,
+        "unit": "month"
+      },
+      "serviceCenter": "تهران - مرکز خدمات مثال",
+      "status": {
+        "current": "delivered",
+        "history": [
+          {
+            "key": "registered",
+            "at": "2023-12-01",
+            "note": "ثبت"
+          },
+          {
+            "key": "received",
+            "at": "2023-12-05",
+            "note": "دریافت"
+          },
+          {
+            "key": "diagnosis",
+            "at": "2023-12-06",
+            "note": "عیب‌یابی"
+          },
+          {
+            "key": "delivered",
+            "at": "2023-12-10",
+            "note": "تحویل"
+          }
+        ]
+      },
+      "policyRef": {
+        "brand": "WD",
+        "category": "هارد اکسترنال"
+      }
+    },
+    {
+      "serials": ["FDK-SSD-1000DAY", "FDK-1000"],
+      "brand": "FDK",
+      "model": "FDK SATA 1TB",
+      "purchaseDate": "2023-09-10",
+      "expireDate": "2026-06-06",
+      "warranty": {
+        "value": 1000,
+        "unit": "day"
+      },
+      "serviceCenter": "تهران - مرکز خدمات مثال",
+      "status": {
+        "current": "qa",
+        "history": [
+          {
+            "key": "registered",
+            "at": "2024-07-01",
+            "note": "ثبت"
+          },
+          {
+            "key": "received",
+            "at": "2024-07-02",
+            "note": "دریافت"
+          },
+          {
+            "key": "diagnosis",
+            "at": "2024-07-03",
+            "note": "عیب‌یابی"
+          },
+          {
+            "key": "qa",
+            "at": "2024-07-05",
+            "note": "کنترل کیفیت"
+          }
+        ]
+      },
+      "policyRef": {
+        "brand": "FDK",
+        "category": "اس‌اس‌دی"
+      }
+    }
+  ]
+}

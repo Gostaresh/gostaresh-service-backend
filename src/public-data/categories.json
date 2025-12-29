@@ -1,0 +1,77 @@
+{
+  "parents": [
+    {
+      "slug": "laptop",
+      "title": "لپ‌تاپ",
+      "image": "/images/categories/laptop.png",
+      "summary": "انواع لپ‌تاپ برای کاربری عمومی و حرفه‌ای",
+      "tags": [
+        "ویندوز",
+        "مک"
+      ],
+      "id": "b1fff913-ed18-41e1-9d6a-3b1051fa645b",
+      "name": "لپ‌تاپ",
+      "isActive": true
+    },
+    {
+      "slug": "phone",
+      "title": "موبایل",
+      "image": "/images/categories/phone.png",
+      "summary": "گوشی‌های هوشمند از برندهای معتبر",
+      "tags": [
+        "اندروید",
+        "iOS"
+      ],
+      "id": "58fa9e12-dd62-4548-848f-807ef210660e",
+      "name": "موبایل",
+      "isActive": true
+    }
+  ],
+  "children": [
+    {
+      "parentSlug": "laptop",
+      "slug": "ultrabook",
+      "title": "اولترابوک",
+      "image": "/images/categories/ultrabook.png",
+      "summary": "سبک و باریک با شارژدهی بالا",
+      "tags": [
+        "سبک",
+        "باریک"
+      ],
+      "id": "19f5e4aa-098a-463d-ac0d-96e75cdfb42a",
+      "name": "اولترابوک",
+      "isActive": true,
+      "parentID": "b1fff913-ed18-41e1-9d6a-3b1051fa645b"
+    },
+    {
+      "parentSlug": "laptop",
+      "slug": "gaming",
+      "title": "گیمینگ",
+      "image": "/images/categories/gaming.png",
+      "summary": "قدرت پردازشی بالا برای بازی",
+      "tags": [
+        "GPU",
+        "خنک‌کننده"
+      ],
+      "id": "d8e880c0-01a9-4bd7-9e5a-be7871261fba",
+      "name": "گیمینگ",
+      "isActive": true,
+      "parentID": "b1fff913-ed18-41e1-9d6a-3b1051fa645b"
+    },
+    {
+      "parentSlug": "phone",
+      "slug": "flagship",
+      "title": "پرچمدار",
+      "image": "/images/categories/flagship.png",
+      "summary": "بهترین‌ها با جدیدترین فناوری‌ها",
+      "tags": [
+        "۵G",
+        "دوربین"
+      ],
+      "id": "ff762d98-8aeb-497d-a9d0-4eb25deefda3",
+      "name": "پرچمدار",
+      "isActive": true,
+      "parentID": "58fa9e12-dd62-4548-848f-807ef210660e"
+    }
+  ]
+}

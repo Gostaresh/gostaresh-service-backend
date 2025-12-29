@@ -52,6 +52,11 @@ module.exports = {
       "user_role.update",
       // product statuses
       "product_status.read",
+      // service centers
+      "service_center.read",
+      "service_center.create",
+      "service_center.update",
+      "service_center.delete",
       // website settings
       "website_setting.read",
       "website_setting.create",
@@ -163,6 +168,10 @@ module.exports = {
       "article_type.read","article_type.create","article_type.update","article_type.delete",
       "permission.read","role.read","role.create","role.update","role.delete","role_permission.update","user_role.update",
       "product_status.read",
+      "service_center.read",
+      "service_center.create",
+      "service_center.update",
+      "service_center.delete",
       "website_setting.read","website_setting.create","website_setting.update","website_setting.delete",
       "website_setting_kind.read","website_setting_kind.create","website_setting_kind.update","website_setting_kind.delete",
     ];

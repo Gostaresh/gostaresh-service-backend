@@ -1,0 +1,17 @@
+[
+  {
+    "id": "bbb7b3a1-c313-4c59-9623-a5599f96f0c2",
+    "name": "blog",
+    "isActive": true
+  },
+  {
+    "id": "8cf689c9-17c2-4478-850f-114b3a2589a3",
+    "name": "news",
+    "isActive": true
+  },
+  {
+    "id": "50bf4e83-45d5-4c03-8a81-c8d7c2e9f6a0",
+    "name": "education",
+    "isActive": true
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "roles": [
+    { "key": "admin", "name": "مدیر سیستم" },
+    { "key": "editor", "name": "ویرایشگر" },
+    { "key": "viewer", "name": "مشاهده‌گر" }
+  ],
+  "permissions": [
+    { "resource": "products", "actions": ["read", "create", "update", "delete"], "roles": ["admin", "editor"] },
+    { "resource": "brands", "actions": ["read", "update"], "roles": ["admin", "editor"] },
+    { "resource": "categories", "actions": ["read", "update"], "roles": ["admin", "editor"] }
+  ]
+}
+

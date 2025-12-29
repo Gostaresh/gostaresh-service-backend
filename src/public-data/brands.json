@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Lenovo",
+    "slug": "lenovo",
+    "logo": "/images/brands/lenovo.png",
+    "summary": "لپ‌تاپ و تجهیزات کامپیوتری",
+    "tags": [
+      "Yoga",
+      "ThinkPad"
+    ],
+    "id": "f02205ad-8b0b-4a39-b8ee-f7324fbe1749",
+    "description": "لپ‌تاپ و تجهیزات کامپیوتری",
+    "image": "/images/brands/lenovo.png",
+    "isActive": true
+  },
+  {
+    "name": "ASUS",
+    "slug": "asus",
+    "logo": "/images/brands/asus.png",
+    "summary": "گیمینگ، قطعات و لپ‌تاپ",
+    "tags": [
+      "ROG",
+      "TUF"
+    ],
+    "id": "16c928e2-3b15-4ca0-b9fc-6a1e12eacbee",
+    "description": "گیمینگ، قطعات و لپ‌تاپ",
+    "image": "/images/brands/asus.png",
+    "isActive": true
+  },
+  {
+    "name": "HP",
+    "slug": "hp",
+    "logo": "/images/brands/hp.png",
+    "id": "0322d870-7897-4a04-818d-c4c4945f924b",
+    "description": "",
+    "image": "/images/brands/hp.png",
+    "isActive": true
+  },
+  {
+    "name": "Acer",
+    "slug": "acer",
+    "logo": "/images/brands/acer.png",
+    "id": "40353465-d6dc-47ff-9f83-e82789f8fb8f",
+    "description": "",
+    "image": "/images/brands/acer.png",
+    "isActive": true
+  },
+  {
+    "name": "Samsung",
+    "slug": "samsung",
+    "logo": "/images/brands/samsung.png",
+    "id": "0ae87ff1-b193-4ee9-bb02-ed951dea0aad",
+    "description": "",
+    "image": "/images/brands/samsung.png",
+    "isActive": true
+  },
+  {
+    "name": "LG",
+    "slug": "lg",
+    "logo": "/images/brands/LG.png",
+    "id": "4041fdf9-69c8-44ac-8b06-09499cf6254e",
+    "description": "",
+    "image": "/images/brands/LG.png",
+    "isActive": true
+  },
+  {
+    "name": "Team Group",
+    "slug": "team-group",
+    "logo": "/images/brands/teamgroup.png",
+    "id": "02027474-3d7f-45aa-b822-083330ab156c",
+    "description": "",
+    "image": "/images/brands/teamgroup.png",
+    "isActive": true
+  },
+  {
+    "name": "Geil",
+    "slug": "geil",
+    "logo": "/images/brands/geil.png",
+    "id": "68625d1d-962e-4c9d-a765-8ab2910c6f00",
+    "description": "",
+    "image": "/images/brands/geil.png",
+    "isActive": true
+  },
+  {
+    "name": "Apple",
+    "slug": "apple",
+    "logo": "/images/brands/apple.png",
+    "summary": "اکوسیستم iPhone و Mac",
+    "tags": [
+      "iOS",
+      "Mac"
+    ],
+    "id": "d8766898-d5e2-4fea-b290-5074e21791d5",
+    "description": "اکوسیستم iPhone و Mac",
+    "image": "/images/brands/apple.png",
+    "isActive": true
+  }
+]

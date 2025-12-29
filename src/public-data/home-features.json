@@ -1,0 +1,44 @@
+﻿[
+  {
+    "title": "استعلام سریع",
+    "desc": "با سریال/IMEI، نتیجه ظرف چند ثانیه نمایش داده می‌شود.",
+    "icon": "ph:rocket-duotone",
+    "bg": "bg-sky-50",
+    "dot": "bg-sky-300"
+  },
+  {
+    "title": "شفافیت وضعیت",
+    "desc": "تایم‌لاین از ثبت تا تحویل: ثبت، دریافت، عیب‌یابی، تعمیر، QA و…",
+    "icon": "ph:list-checks-duotone",
+    "bg": "bg-emerald-50",
+    "dot": "bg-emerald-300"
+  },
+  {
+    "title": "قوانین روشن",
+    "desc": "مدت گارانتی و استثناهای هر برند یک‌جا و خوانا.",
+    "icon": "ph:book-open-text-duotone",
+    "bg": "bg-indigo-50",
+    "dot": "bg-indigo-300"
+  },
+  {
+    "title": "استعلام سریع",
+    "desc": "با سریال/IMEI، نتیجه ظرف چند ثانیه نمایش داده می‌شود.",
+    "icon": "ph:rocket-duotone",
+    "bg": "bg-sky-50",
+    "dot": "bg-sky-300"
+  },
+  {
+    "title": "شفافیت وضعیت",
+    "desc": "تایم‌لاین از ثبت تا تحویل: ثبت، دریافت، عیب‌یابی، تعمیر، QA و…",
+    "icon": "ph:list-checks-duotone",
+    "bg": "bg-emerald-50",
+    "dot": "bg-emerald-300"
+  },
+  {
+    "title": "قوانین روشن",
+    "desc": "مدت گارانتی و استثناهای هر برند یک‌جا و خوانا.",
+    "icon": "ph:book-open-text-duotone",
+    "bg": "bg-indigo-50",
+    "dot": "bg-indigo-300"
+  }
+]

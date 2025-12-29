@@ -16,11 +16,14 @@ const utilsRoutes = require("@/routes/utils.routes");
 const permissionRoutes = require("@/routes/permission.routes");
 const roleRoutes = require("@/routes/role.routes");
 const productStatusRoutes = require("@/routes/product_status.routes");
+const publicContentRoutes = require("@/routes/public_content.routes");
+const serviceCenterRoutes = require("@/routes/service_center.routes");
 
 const router = Router();
 
 router.use("/users", userRoutes);
 router.use("/auth", authRoutes);
+router.use("/public", publicContentRoutes);
 router.use("/warranty", warrantyRoutes);
 router.use("/files", uploadRoutes);
 router.use("/products", productRoutes);
@@ -34,5 +37,6 @@ router.use("/utils", utilsRoutes);
 router.use("/permissions", permissionRoutes);
 router.use("/roles", roleRoutes);
 router.use("/product-statuses", productStatusRoutes);
+router.use("/service-centers", serviceCenterRoutes);
 
 module.exports = router;

@@ -1,0 +1,15 @@
+{
+  "rules": [
+    {
+      "resource": "products",
+      "action": "update",
+      "condition": { "field": "brandSlug", "op": "in", "value": "${user.brandSlugs}" }
+    },
+    {
+      "resource": "products",
+      "action": "delete",
+      "condition": { "field": "status", "op": "!=", "value": "active" }
+    }
+  ]
+}
+
