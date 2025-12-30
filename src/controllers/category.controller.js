@@ -6,13 +6,26 @@ const categoryService = require("@/services/category.service");
 const idParamSchema = Joi.object({ id: Joi.string().uuid().required() });
 
 const createSchema = Joi.object({
-  name: Joi.string().min(1).max(200).required(),
+  name: Joi.string().min(1).max(200),
+  title: Joi.string().min(1).max(200),
   parentID: Joi.string().uuid().allow(null).optional(),
   slug: Joi.string().optional(),
+  image: Joi.string().allow("", null),
+  summary: Joi.string().allow("", null),
+  tags: Joi.array().items(Joi.string().allow("", null)).allow(null),
   isActive: Joi.boolean().default(true),
-});
+}).or("name", "title");
 
-const updateSchema = createSchema.fork(["name"], (s) => s.optional());
+const updateSchema = Joi.object({
+  name: Joi.string().min(1).max(200).optional(),
+  title: Joi.string().min(1).max(200).optional(),
+  parentID: Joi.string().uuid().allow(null).optional(),
+  slug: Joi.string().optional(),
+  image: Joi.string().allow("", null),
+  summary: Joi.string().allow("", null),
+  tags: Joi.array().items(Joi.string().allow("", null)).allow(null),
+  isActive: Joi.boolean(),
+});
 
 exports.list = async (req, res, next) => {
   try {
@@ -40,7 +53,10 @@ exports.create = async (req, res, next) => {
   try {
     const { error, value } = createSchema.validate(req.body);
     if (error) return res.status(400).json({ message: error.message });
-    const created = await categoryService.create(value);
+    const payload = { ...value };
+    if (!payload.name && payload.title) payload.name = payload.title;
+    if (!payload.title && payload.name) payload.title = payload.name;
+    const created = await categoryService.create(payload);
     res.status(201).json(created);
   } catch (err) {
     next(err);

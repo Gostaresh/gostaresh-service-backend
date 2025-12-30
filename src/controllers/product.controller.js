@@ -6,18 +6,42 @@ const productService = require("@/services/product.service");
 const idParamSchema = Joi.object({ id: Joi.string().uuid().required() });
 
 const createSchema = Joi.object({
-  name: Joi.string().min(1).max(300).required(),
+  name: Joi.string().min(1).max(300),
+  title: Joi.string().min(1).max(300),
   shortDescription: Joi.string().allow("", null),
   longDescription: Joi.string().allow("", null),
+  summary: Joi.string().allow("", null),
+  description: Joi.string().allow("", null),
+  features: Joi.array().items(Joi.object().unknown(true)).allow(null),
+  tags: Joi.array().items(Joi.string().allow("", null)).allow(null),
+  featured: Joi.boolean(),
+  legacyId: Joi.string().allow("", null),
   price: Joi.number().integer().min(0).required(),
   statusID: Joi.string().uuid().optional(),
   brandID: Joi.string().uuid().optional(),
   categoryID: Joi.string().uuid().optional(),
   slug: Joi.string().optional(),
   isActive: Joi.boolean().default(true),
-});
+}).or("name", "title");
 
-const updateSchema = createSchema.fork(["name", "price"], (s) => s.optional());
+const updateSchema = Joi.object({
+  name: Joi.string().min(1).max(300).optional(),
+  title: Joi.string().min(1).max(300).optional(),
+  shortDescription: Joi.string().allow("", null),
+  longDescription: Joi.string().allow("", null),
+  summary: Joi.string().allow("", null),
+  description: Joi.string().allow("", null),
+  features: Joi.array().items(Joi.object().unknown(true)).allow(null),
+  tags: Joi.array().items(Joi.string().allow("", null)).allow(null),
+  featured: Joi.boolean(),
+  legacyId: Joi.string().allow("", null),
+  price: Joi.number().integer().min(0).optional(),
+  statusID: Joi.string().uuid().optional(),
+  brandID: Joi.string().uuid().optional(),
+  categoryID: Joi.string().uuid().optional(),
+  slug: Joi.string().optional(),
+  isActive: Joi.boolean(),
+});
 
 exports.list = async (req, res, next) => {
   try {
@@ -53,7 +77,10 @@ exports.create = async (req, res, next) => {
   try {
     const { error, value } = createSchema.validate(req.body);
     if (error) return res.status(400).json({ message: error.message });
-    const created = await productService.create(value, req.auth?.sub);
+    const payload = { ...value };
+    if (!payload.name && payload.title) payload.name = payload.title;
+    if (!payload.title && payload.name) payload.title = payload.name;
+    const created = await productService.create(payload, req.auth?.sub);
     res.status(201).json(created);
   } catch (err) {
     next(err);
@@ -84,4 +111,3 @@ exports.remove = async (req, res, next) => {
     next(err);
   }
 };
-

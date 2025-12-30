@@ -32,8 +32,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       name: DataTypes.STRING,
+      title: DataTypes.STRING,
       parentID: DataTypes.UUID,
       slug: DataTypes.STRING,
+      image: DataTypes.TEXT,
+      summary: DataTypes.TEXT,
+      tags: DataTypes.JSON,
       isActive: DataTypes.BOOLEAN,
     },
     {

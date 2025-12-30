@@ -13,7 +13,7 @@ exports.list = async (_req, res, next) => {
 exports.get = async (req, res, next) => {
   try {
     const key = service.normalizeKey(req.params.key);
-    const data = service.loadJsonForKey(key);
+    const data = await service.loadForKey(key);
     if (!data) return res.status(404).json({ message: "Not Found" });
     res.json(data);
   } catch (err) {

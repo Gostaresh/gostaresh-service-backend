@@ -6,7 +6,12 @@ const { generateUniqueSlug } = require("@/utils/slug");
 
 exports.list = async ({ q, parentID, isActive, limit = 100, offset = 0 } = {}) => {
   const where = {};
-  if (q) where.name = { [Op.like]: `%${q}%` };
+  if (q) {
+    where[Op.or] = [
+      { name: { [Op.like]: `%${q}%` } },
+      { title: { [Op.like]: `%${q}%` } },
+    ];
+  }
   if (parentID) where.parentID = parentID;
   if (typeof isActive !== "undefined") where.isActive = isActive;
   const { rows, count } = await category.findAndCountAll({
@@ -46,8 +51,8 @@ exports.getBySlug = async (slug) => {
 
 exports.create = async (payload) => {
   const data = { ...payload };
-  if (data.name || data.slug) {
-    const base = data.slug || data.name;
+  if (data.name || data.title || data.slug) {
+    const base = data.slug || data.name || data.title;
     data.slug = await generateUniqueSlug(category, base);
   }
   const created = await category.create(data);
@@ -56,8 +61,8 @@ exports.create = async (payload) => {
 
 exports.update = async (id, payload) => {
   const data = { ...payload };
-  if (data.name || data.slug) {
-    const base = data.slug || data.name;
+  if (data.name || data.title || data.slug) {
+    const base = data.slug || data.name || data.title;
     data.slug = await generateUniqueSlug(category, base, { idToExclude: id });
   }
   await category.update(data, { where: { id } });

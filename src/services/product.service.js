@@ -6,7 +6,12 @@ const { generateUniqueSlug, normalizeBase } = require("@/utils/slug");
 
 exports.list = async ({ q, brandID, categoryID, statusID, isActive, limit = 20, offset = 0 }) => {
   const where = {};
-  if (q) where.name = { [Op.like]: `%${q}%` };
+  if (q) {
+    where[Op.or] = [
+      { name: { [Op.like]: `%${q}%` } },
+      { title: { [Op.like]: `%${q}%` } },
+    ];
+  }
   if (brandID) where.brandID = brandID;
   if (categoryID) where.categoryID = categoryID;
   if (statusID) where.statusID = statusID;
@@ -55,8 +60,8 @@ exports.getBySlug = async (slug) => {
 
 exports.create = async (payload, createdBy) => {
   const data = { ...payload };
-  if (data.name || data.slug) {
-    const base = data.slug || data.name;
+  if (data.name || data.title || data.slug) {
+    const base = data.slug || data.name || data.title;
     data.slug = await generateUniqueSlug(product, base);
   }
   if (createdBy) data.createdBy = createdBy;
@@ -66,8 +71,8 @@ exports.create = async (payload, createdBy) => {
 
 exports.update = async (id, payload) => {
   const data = { ...payload };
-  if (data.name || data.slug) {
-    const base = data.slug || data.name;
+  if (data.name || data.title || data.slug) {
+    const base = data.slug || data.name || data.title;
     data.slug = await generateUniqueSlug(product, base, { idToExclude: id });
   }
   await product.update(data, { where: { id } });

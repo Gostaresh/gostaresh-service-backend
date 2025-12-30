@@ -7,6 +7,13 @@ const idParamSchema = Joi.object({ id: Joi.string().uuid().required() });
 
 const createSchema = Joi.object({
   title: Joi.string().min(1).max(300).required(),
+  excerpt: Joi.string().allow("", null),
+  cover: Joi.string().allow("", null),
+  date: Joi.string().allow("", null),
+  readMinutes: Joi.number().integer().min(0).allow(null),
+  tags: Joi.array().items(Joi.string().allow("", null)).allow(null),
+  hot: Joi.boolean(),
+  content: Joi.string().allow("", null),
   shortContent: Joi.string().allow("", null),
   longContent: Joi.string().allow("", null),
   articleTypeID: Joi.string().uuid().optional(),

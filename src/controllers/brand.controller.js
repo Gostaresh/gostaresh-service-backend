@@ -9,6 +9,9 @@ const createSchema = Joi.object({
   name: Joi.string().min(1).max(200).required(),
   description: Joi.string().allow("", null),
   image: Joi.string().allow("", null),
+  logo: Joi.string().allow("", null),
+  summary: Joi.string().allow("", null),
+  tags: Joi.array().items(Joi.string().allow("", null)).allow(null),
   slug: Joi.string().optional(),
   isActive: Joi.boolean().default(true),
 });
