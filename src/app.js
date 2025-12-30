@@ -65,8 +65,8 @@ app.use(
 );
 app.get("/docs.json", (req, res) => res.json(swaggerSpec));
 
-// Public content by slug (no auth, no prefix)
-app.use(publicRoutes);
+// Public endpoints (no auth, /public prefix)
+app.use("/public", publicRoutes);
 
 // Attach body parsers only for API routes
 app.use("/api/v1", express.json());

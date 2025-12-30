@@ -12,23 +12,49 @@ const DATA_PATH = path.join(
   "service-centers.json"
 );
 
+const DEFAULT_ITEMS = [
+  {
+    id: "default-service-center",
+    slug: "default",
+    title: "Default Service Center",
+    city: "Tehran",
+    tagline: "Primary service center",
+    summary: "Default service center seeded for initial setup.",
+    image: "/images/service-centers/default.png",
+    primary: true,
+    contact: {
+      address: "No. 1, Example St, Tehran",
+      hours: ["Sat-Thu 09:00-17:00", "Fri 09:00-13:00"],
+      phones: ["021-00000000"],
+      email: "support@example.com",
+      mapLink: "https://maps.google.com/?q=35.699,51.337",
+    },
+    services: ["Warranty", "Repair", "Consulting"],
+  },
+];
+
+function loadSeedItems() {
+  let raw;
+  try {
+    raw = fs.readFileSync(DATA_PATH, "utf8");
+  } catch (err) {
+    return DEFAULT_ITEMS;
+  }
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+  } catch (err) {
+    return DEFAULT_ITEMS;
+  }
+
+  return DEFAULT_ITEMS;
+}
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    let raw;
-    try {
-      raw = fs.readFileSync(DATA_PATH, "utf8");
-    } catch (err) {
-      return;
-    }
-
-    let items;
-    try {
-      items = JSON.parse(raw);
-    } catch (err) {
-      return;
-    }
-
+    const items = loadSeedItems();
     if (!Array.isArray(items) || items.length === 0) return;
 
     const t = await queryInterface.sequelize.transaction();
@@ -194,20 +220,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    let raw;
-    try {
-      raw = fs.readFileSync(DATA_PATH, "utf8");
-    } catch (err) {
-      return;
-    }
-
-    let items;
-    try {
-      items = JSON.parse(raw);
-    } catch (err) {
-      return;
-    }
-
+    const items = loadSeedItems();
     if (!Array.isArray(items) || items.length === 0) return;
 
     const ids = new Set(

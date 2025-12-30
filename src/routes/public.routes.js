@@ -1,16 +1,19 @@
 "use strict";
 
 const { Router } = require("express");
-const controller = require("@/controllers/public.controller");
+const publicController = require("@/controllers/public.controller");
+const publicContentController = require("@/controllers/public_content.controller");
 
 const router = Router();
 
 // Public, no auth
-router.get("/product/:slug", controller.productBySlug);
-router.get("/brand/:slug", controller.brandBySlug);
-router.get("/category/:slug", controller.categoryBySlug);
-router.get("/article/:slug", controller.articleBySlug);
-router.get("/service-centers", controller.serviceCenterList);
-router.get("/service-center/:slug", controller.serviceCenterBySlug);
+router.get("/content", publicContentController.list);
+router.get("/content/:key", publicContentController.get);
+router.get("/products/:slug", publicController.productBySlug);
+router.get("/brands/:slug", publicController.brandBySlug);
+router.get("/categories/:slug", publicController.categoryBySlug);
+router.get("/articles/:slug", publicController.articleBySlug);
+router.get("/service-centers", publicController.serviceCenterList);
+router.get("/service-centers/:slug", publicController.serviceCenterBySlug);
 
 module.exports = router;

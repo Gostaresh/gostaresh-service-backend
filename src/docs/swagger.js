@@ -12,7 +12,7 @@ const swaggerSpec = {
   },
   servers: [
     { url: "/api/v1", description: "Main API" },
-    { url: "/", description: "Public endpoints (slug)" },
+    { url: "/", description: "Public endpoints (/public)" },
   ],
   tags: [
     { name: "Auth" },
@@ -572,7 +572,34 @@ const swaggerSpec = {
         },
       },
     },
-    "/product/{slug}": {
+    "/public/content": {
+      get: {
+        tags: ["Public"],
+        summary: "Public content keys",
+        responses: {
+          200: { description: "OK" },
+        },
+      },
+    },
+    "/public/content/{key}": {
+      get: {
+        tags: ["Public"],
+        summary: "Public content by key",
+        parameters: [
+          {
+            in: "path",
+            name: "key",
+            required: true,
+            schema: { type: "string" },
+          },
+        ],
+        responses: {
+          200: { description: "OK" },
+          404: { description: "Not Found" },
+        },
+      },
+    },
+    "/public/products/{slug}": {
       get: {
         tags: ["Public"],
         summary: "Public product by slug",
@@ -590,7 +617,7 @@ const swaggerSpec = {
         },
       },
     },
-    "/article/{slug}": {
+    "/public/articles/{slug}": {
       get: {
         tags: ["Public"],
         summary: "Public article by slug",
@@ -608,10 +635,44 @@ const swaggerSpec = {
         },
       },
     },
-    "/brand/{slug}": {
+    "/public/brands/{slug}": {
       get: {
         tags: ["Public"],
         summary: "Public brand by slug",
+        parameters: [
+          {
+            in: "path",
+            name: "slug",
+            required: true,
+            schema: { type: "string" },
+          },
+        ],
+        responses: {
+          200: { description: "OK" },
+          404: { description: "Not Found" },
+        },
+      },
+    },
+    "/public/service-centers": {
+      get: {
+        tags: ["Public"],
+        summary: "Public service center list",
+        parameters: [
+          { in: "query", name: "q", schema: { type: "string" } },
+          { in: "query", name: "city", schema: { type: "string" } },
+          { in: "query", name: "primary", schema: { type: "boolean" } },
+          { in: "query", name: "limit", schema: { type: "integer" } },
+          { in: "query", name: "offset", schema: { type: "integer" } },
+        ],
+        responses: {
+          200: { description: "OK" },
+        },
+      },
+    },
+    "/public/service-centers/{slug}": {
+      get: {
+        tags: ["Public"],
+        summary: "Public service center by slug",
         parameters: [
           {
             in: "path",
@@ -753,7 +814,7 @@ const swaggerSpec = {
         },
       },
     },
-    "/category/{slug}": {
+    "/public/categories/{slug}": {
       get: {
         tags: ["Public"],
         summary: "Public category by slug",
