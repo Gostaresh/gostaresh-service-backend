@@ -20,6 +20,10 @@ function safeArray(value) {
   return Array.isArray(value) ? value : [];
 }
 
+function toJsonArray(value) {
+  return Array.isArray(value) ? JSON.stringify(value) : null;
+}
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -104,7 +108,7 @@ module.exports = {
               image: item.image || null,
               logo: item.logo || null,
               summary: item.summary || null,
-              tags: Array.isArray(item.tags) ? item.tags : null,
+              tags: toJsonArray(item.tags),
               slug: item.slug,
               isActive: typeof item.isActive === "boolean" ? item.isActive : true,
               createdAt: now,
@@ -143,7 +147,7 @@ module.exports = {
               slug: item.slug,
               image: item.image || null,
               summary: item.summary || null,
-              tags: Array.isArray(item.tags) ? item.tags : null,
+              tags: toJsonArray(item.tags),
               isActive: typeof item.isActive === "boolean" ? item.isActive : true,
               createdAt: now,
               updatedAt: now,
@@ -180,7 +184,7 @@ module.exports = {
               slug: item.slug,
               image: item.image || null,
               summary: item.summary || null,
-              tags: Array.isArray(item.tags) ? item.tags : null,
+              tags: toJsonArray(item.tags),
               isActive: typeof item.isActive === "boolean" ? item.isActive : true,
               createdAt: now,
               updatedAt: now,
@@ -248,8 +252,8 @@ module.exports = {
             longDescription: item.longDescription || item.description || null,
             summary: item.summary || item.shortDescription || null,
             description: item.description || item.longDescription || null,
-            features: Array.isArray(item.features) ? item.features : null,
-            tags: Array.isArray(item.tags) ? item.tags : null,
+            features: toJsonArray(item.features),
+            tags: toJsonArray(item.tags),
             featured: Boolean(item.featured),
             legacyId: item.legacyId || null,
             price:
@@ -319,7 +323,7 @@ module.exports = {
               cover: item.cover || null,
               date: item.date || null,
               readMinutes: item.readMinutes || null,
-              tags: Array.isArray(item.tags) ? item.tags : null,
+              tags: toJsonArray(item.tags),
               hot: Boolean(item.hot),
               content: item.content || item.longContent || null,
               shortContent: item.shortContent || item.excerpt || null,
