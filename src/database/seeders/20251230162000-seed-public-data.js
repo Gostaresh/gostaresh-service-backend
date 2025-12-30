@@ -28,10 +28,15 @@ function toJsonArray(value) {
 module.exports = {
   async up(queryInterface, Sequelize) {
     const t = await queryInterface.sequelize.transaction();
+    let currentStep = "start";
+    const markStep = (name) => {
+      currentStep = name;
+    };
     try {
       const now = new Date();
 
       // product statuses
+      markStep("product-statuses");
       const productStatuses = readJson("product-statuses.json");
       if (Array.isArray(productStatuses)) {
         const [existing] = await queryInterface.sequelize.query(
@@ -60,6 +65,7 @@ module.exports = {
       }
 
       // article types
+      markStep("article-types");
       const articleTypes = readJson("article-types.json");
       if (Array.isArray(articleTypes)) {
         const [existing] = await queryInterface.sequelize.query(
@@ -88,6 +94,7 @@ module.exports = {
       }
 
       // brands
+      markStep("brands");
       const brands = readJson("brands.json");
       if (Array.isArray(brands)) {
         const [existing] = await queryInterface.sequelize.query(
@@ -122,6 +129,7 @@ module.exports = {
       }
 
       // categories
+      markStep("categories");
       const categories = readJson("categories.json");
       if (categories && typeof categories === "object") {
         const parents = safeArray(categories.parents);
@@ -199,6 +207,7 @@ module.exports = {
       }
 
       // products + galleries
+      markStep("products");
       const products = readJson("products.json");
       if (Array.isArray(products)) {
         const [existing] = await queryInterface.sequelize.query(
@@ -303,6 +312,7 @@ module.exports = {
       }
 
       // blogs -> articles
+      markStep("blogs");
       const blogs = readJson("blogs.json");
       if (Array.isArray(blogs)) {
         const [existing] = await queryInterface.sequelize.query(
@@ -343,6 +353,7 @@ module.exports = {
       }
 
       // downloads
+      markStep("downloads");
       const downloads = readJson("downloads.json");
       if (Array.isArray(downloads)) {
         const [existing] = await queryInterface.sequelize.query(
@@ -373,6 +384,7 @@ module.exports = {
       }
 
       // pre-send tips
+      markStep("pre-send-tips");
       const preSendTips = readJson("pre-send-tips.json");
       if (Array.isArray(preSendTips)) {
         await queryInterface.bulkDelete("pre_send_tips", {}, { transaction: t });
@@ -397,6 +409,7 @@ module.exports = {
       }
 
       // policies
+      markStep("policies");
       const policies = readJson("policies.json");
       if (Array.isArray(policies)) {
         const [existing] = await queryInterface.sequelize.query(
@@ -429,6 +442,7 @@ module.exports = {
       }
 
       // home features
+      markStep("home-features");
       const homeFeatures = readJson("home-features.json");
       if (Array.isArray(homeFeatures)) {
         await queryInterface.bulkDelete("home_features", {}, { transaction: t });
@@ -456,6 +470,7 @@ module.exports = {
       }
 
       // hero slides
+      markStep("hero-slides");
       const heroSlides = readJson("hero-slides.json");
       if (Array.isArray(heroSlides)) {
         await queryInterface.bulkDelete("hero_slides", {}, { transaction: t });
@@ -484,6 +499,7 @@ module.exports = {
       }
 
       // home timeline
+      markStep("home-timeline");
       const homeTimeline = readJson("home-timeline.json");
       if (Array.isArray(homeTimeline)) {
         await queryInterface.bulkDelete("home_timeline_items", {}, {
@@ -510,6 +526,7 @@ module.exports = {
       }
 
       // quick contacts
+      markStep("quick-contacts");
       const quickContacts = readJson("quick-contacts.json");
       if (quickContacts && typeof quickContacts === "object") {
         await queryInterface.bulkDelete("quick_contacts", {}, { transaction: t });
@@ -531,6 +548,7 @@ module.exports = {
       }
 
       // service stats
+      markStep("service-stats");
       const serviceStats = readJson("service-stats.json");
       if (Array.isArray(serviceStats)) {
         const [existing] = await queryInterface.sequelize.query(
@@ -561,6 +579,7 @@ module.exports = {
       }
 
       // faq
+      markStep("faq");
       const faqItems = readJson("faq.json");
       if (Array.isArray(faqItems)) {
         await queryInterface.bulkDelete("faq_items", {}, { transaction: t });
@@ -585,6 +604,7 @@ module.exports = {
       }
 
       // abac rules
+      markStep("abac-rules");
       const abacRules = readJson("abac-rules.json");
       if (abacRules && Array.isArray(abacRules.rules)) {
         await queryInterface.bulkDelete("abac_rules", {}, { transaction: t });
@@ -611,6 +631,7 @@ module.exports = {
       }
 
       // rbac roles + permissions
+      markStep("rbac-roles");
       const rbac = readJson("rbac-roles.json");
       if (rbac && typeof rbac === "object") {
         const roleItems = Array.isArray(rbac.roles) ? rbac.roles : [];
@@ -728,6 +749,9 @@ module.exports = {
       await t.commit();
     } catch (err) {
       await t.rollback();
+      if (err && err.message) {
+        err.message = `[seed-public-data:${currentStep}] ${err.message}`;
+      }
       throw err;
     }
   },
