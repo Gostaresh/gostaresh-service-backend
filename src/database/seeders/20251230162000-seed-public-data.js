@@ -422,6 +422,10 @@ module.exports = {
             if (!item || !item.id) return null;
             if (existingIds.has(item.id)) return null;
             const duration = item.duration || {};
+            const conditions =
+              typeof item.conditions === "string"
+                ? item.conditions.trim()
+                : null;
             return {
               id: String(item.id),
               brand: item.brand || "",
@@ -430,6 +434,7 @@ module.exports = {
               durationValue:
                 typeof duration.value === "number" ? duration.value : null,
               durationUnit: duration.unit || null,
+              conditions: conditions || null,
               sortOrder: index + 1,
               createdAt: now,
               updatedAt: now,

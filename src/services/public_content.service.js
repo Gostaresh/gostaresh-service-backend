@@ -277,6 +277,7 @@ async function loadPolicies() {
       value: item.durationValue,
       unit: item.durationUnit ?? null,
     },
+    conditions: item.conditions ?? null,
   }));
 }
 

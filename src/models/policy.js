@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       product: DataTypes.STRING,
       durationValue: DataTypes.INTEGER,
       durationUnit: DataTypes.STRING,
+      conditions: DataTypes.TEXT,
       sortOrder: DataTypes.INTEGER,
     },
     {
