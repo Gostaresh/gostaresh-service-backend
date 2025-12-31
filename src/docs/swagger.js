@@ -25,6 +25,7 @@ const swaggerSpec = {
     { name: "Permissions" },
     { name: "Roles" },
     { name: "ProductStatuses" },
+    { name: "Policies" },
     { name: "Upload" },
     { name: "Utils" },
     { name: "WebsiteSettings" },
@@ -220,6 +221,19 @@ const swaggerSpec = {
           isActive: { type: "boolean" },
         },
       },
+      Policy: {
+        type: "object",
+        properties: {
+          id: { type: "string" },
+          brand: { type: "string" },
+          category: { type: "string" },
+          product: { type: "string", nullable: true },
+          durationValue: { type: "integer", nullable: true },
+          durationUnit: { type: "string", nullable: true },
+          conditions: { type: "string", nullable: true },
+          sortOrder: { type: "integer", nullable: true },
+        },
+      },
       UploadSingleResponse: {
         type: "object",
         properties: {
@@ -368,6 +382,20 @@ const swaggerSpec = {
           isActive: { type: "boolean" },
         },
       },
+      CreatePolicyRequest: {
+        type: "object",
+        required: ["brand", "category"],
+        properties: {
+          id: { type: "string" },
+          brand: { type: "string" },
+          category: { type: "string" },
+          product: { type: "string", nullable: true },
+          durationValue: { type: "integer", nullable: true },
+          durationUnit: { type: "string", nullable: true },
+          conditions: { type: "string", nullable: true },
+          sortOrder: { type: "integer", nullable: true },
+        },
+      },
       UpdateWebsiteSettingKindRequest: {
         allOf: [
           { $ref: "#/components/schemas/CreateWebsiteSettingKindRequest" },
@@ -375,6 +403,9 @@ const swaggerSpec = {
       },
       UpdateServiceCenterRequest: {
         allOf: [{ $ref: "#/components/schemas/CreateServiceCenterRequest" }],
+      },
+      UpdatePolicyRequest: {
+        allOf: [{ $ref: "#/components/schemas/CreatePolicyRequest" }],
       },
       SlugPreviewRequest: {
         type: "object",
@@ -708,6 +739,111 @@ const swaggerSpec = {
     },
     "/product-statuses": {
       get: { tags: ["ProductStatuses"], security: [{ BearerAuth: [] }], summary: "List product statuses", responses: { 200: { description: "OK" } } },
+    },
+    "/policies": {
+      get: {
+        tags: ["Policies"],
+        security: [{ BearerAuth: [] }],
+        summary: "List policies",
+        parameters: [
+          { in: "query", name: "q", schema: { type: "string" } },
+          { in: "query", name: "brand", schema: { type: "string" } },
+          { in: "query", name: "category", schema: { type: "string" } },
+          { in: "query", name: "product", schema: { type: "string" } },
+          { in: "query", name: "limit", schema: { type: "integer", default: 20 } },
+          { in: "query", name: "offset", schema: { type: "integer", default: 0 } },
+        ],
+        responses: {
+          200: {
+            description: "OK",
+            content: {
+              "application/json": {
+                schema: {
+                  allOf: [{ $ref: "#/components/schemas/PageResult" }],
+                  properties: {
+                    items: {
+                      type: "array",
+                      items: { $ref: "#/components/schemas/Policy" },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      post: {
+        tags: ["Policies"],
+        security: [{ BearerAuth: [] }],
+        summary: "Create policy",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/CreatePolicyRequest" },
+            },
+          },
+        },
+        responses: { 201: { description: "Created" } },
+      },
+    },
+    "/policies/{id}": {
+      get: {
+        tags: ["Policies"],
+        security: [{ BearerAuth: [] }],
+        summary: "Get policy",
+        parameters: [
+          {
+            in: "path",
+            name: "id",
+            required: true,
+            schema: { type: "string" },
+          },
+        ],
+        responses: {
+          200: { description: "OK" },
+          404: { description: "Not Found" },
+        },
+      },
+      put: {
+        tags: ["Policies"],
+        security: [{ BearerAuth: [] }],
+        summary: "Update policy",
+        parameters: [
+          {
+            in: "path",
+            name: "id",
+            required: true,
+            schema: { type: "string" },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/UpdatePolicyRequest" },
+            },
+          },
+        },
+        responses: { 200: { description: "OK" } },
+      },
+      delete: {
+        tags: ["Policies"],
+        security: [{ BearerAuth: [] }],
+        summary: "Delete policy",
+        parameters: [
+          {
+            in: "path",
+            name: "id",
+            required: true,
+            schema: { type: "string" },
+          },
+        ],
+        responses: {
+          200: { description: "Deleted" },
+          404: { description: "Not Found" },
+        },
+      },
     },
     "/service-centers": {
       get: {

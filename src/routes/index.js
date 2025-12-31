@@ -16,6 +16,7 @@ const utilsRoutes = require("@/routes/utils.routes");
 const permissionRoutes = require("@/routes/permission.routes");
 const roleRoutes = require("@/routes/role.routes");
 const productStatusRoutes = require("@/routes/product_status.routes");
+const policyRoutes = require("@/routes/policy.routes");
 const serviceCenterRoutes = require("@/routes/service_center.routes");
 
 const router = Router();
@@ -35,6 +36,7 @@ router.use("/utils", utilsRoutes);
 router.use("/permissions", permissionRoutes);
 router.use("/roles", roleRoutes);
 router.use("/product-statuses", productStatusRoutes);
+router.use("/policies", policyRoutes);
 router.use("/service-centers", serviceCenterRoutes);
 
 module.exports = router;

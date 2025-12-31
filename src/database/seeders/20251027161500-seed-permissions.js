@@ -52,6 +52,11 @@ module.exports = {
       "user_role.update",
       // product statuses
       "product_status.read",
+      // policies
+      "policy.read",
+      "policy.create",
+      "policy.update",
+      "policy.delete",
       // service centers
       "service_center.read",
       "service_center.create",
@@ -168,6 +173,10 @@ module.exports = {
       "article_type.read","article_type.create","article_type.update","article_type.delete",
       "permission.read","role.read","role.create","role.update","role.delete","role_permission.update","user_role.update",
       "product_status.read",
+      "policy.read",
+      "policy.create",
+      "policy.update",
+      "policy.delete",
       "service_center.read",
       "service_center.create",
       "service_center.update",
