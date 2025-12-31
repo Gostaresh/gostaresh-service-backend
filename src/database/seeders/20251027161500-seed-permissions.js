@@ -32,6 +32,9 @@ module.exports = {
       "gallery.create",
       "gallery.update",
       "gallery.delete",
+      // files
+      "file.upload",
+      "file.delete",
       // articles
       "article.read",
       "article.create",
@@ -72,6 +75,8 @@ module.exports = {
       "website_setting_kind.create",
       "website_setting_kind.update",
       "website_setting_kind.delete",
+      // docs
+      "docs.read",
     ];
 
     // fetch existing
@@ -169,6 +174,7 @@ module.exports = {
       "category.read","category.create","category.update","category.delete",
       "brand.read","brand.create","brand.update","brand.delete",
       "gallery.read","gallery.create","gallery.update","gallery.delete",
+      "file.upload","file.delete",
       "article.read","article.create","article.update","article.delete",
       "article_type.read","article_type.create","article_type.update","article_type.delete",
       "permission.read","role.read","role.create","role.update","role.delete","role_permission.update","user_role.update",
@@ -183,6 +189,7 @@ module.exports = {
       "service_center.delete",
       "website_setting.read","website_setting.create","website_setting.update","website_setting.delete",
       "website_setting_kind.read","website_setting_kind.create","website_setting_kind.update","website_setting_kind.delete",
+      "docs.read",
     ];
     await queryInterface.bulkDelete(
       'permissions',

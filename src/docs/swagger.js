@@ -1464,6 +1464,7 @@ const swaggerSpec = {
         "/files/upload": {
           post: {
             tags: ["Upload"],
+            security: [{ BearerAuth: [] }],
             summary: "Upload single file (returns relative path under /uploads)",
             description: "Accepts only images (jpeg,png,webp,gif,svg). Max size configurable via UPLOAD_MAX_SIZE_MB (default 10MB).",
             requestBody: {
@@ -1498,6 +1499,7 @@ const swaggerSpec = {
         "/files/upload/multi": {
           post: {
             tags: ["Upload"],
+            security: [{ BearerAuth: [] }],
             summary: "Upload multiple files (returns relative paths under /uploads)",
             description: "Accepts only images (jpeg,png,webp,gif,svg). Max size configurable via UPLOAD_MAX_SIZE_MB (default 10MB).",
             requestBody: {
@@ -1534,6 +1536,7 @@ const swaggerSpec = {
         "/files/delete": {
           delete: {
             tags: ["Upload"],
+            security: [{ BearerAuth: [] }],
             summary: "Delete a single file by path or scope+fileName",
             parameters: [
               { in: "query", name: "path", schema: { type: "string" } },
@@ -1549,6 +1552,7 @@ const swaggerSpec = {
         "/files/delete-scope": {
           delete: {
             tags: ["Upload"],
+            security: [{ BearerAuth: [] }],
             summary: "Delete a whole scope directory",
             parameters: [
               {

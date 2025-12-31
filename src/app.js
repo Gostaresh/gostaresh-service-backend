@@ -8,6 +8,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const { assignReqId, requestLogger } = require("@/middlewares/request_logger");
+const { authenticate, authorizePermissions } = require("@/middlewares/auth");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("@/docs/swagger");
 
@@ -16,6 +17,16 @@ const publicRoutes = require("@/routes/public.routes");
 const { notFound, errorHandler } = require("@/middlewares/error");
 
 const app = express();
+const trustProxy = process.env.TRUST_PROXY;
+if (typeof trustProxy !== "undefined") {
+  const normalized =
+    trustProxy === "true"
+      ? true
+      : trustProxy === "false"
+        ? false
+        : trustProxy;
+  app.set("trust proxy", normalized);
+}
 // Base security headers (tuned for Swagger UI compatibility)
 app.use(
   helmet({
@@ -31,11 +42,28 @@ app.use(
 // JSON / URL-encoded body limits
 // Keep existing strategy: attach parsers for API prefix below
 
-// CORS (allow per-request origin, keep common methods/headers)
+// CORS (restrict origins via env, keep common methods/headers)
+const rawCorsOrigins = process.env.CORS_ORIGINS || "";
+const allowNoOrigin =
+  (process.env.CORS_ALLOW_NO_ORIGIN || "true").toLowerCase() === "true";
+const allowedOrigins = rawCorsOrigins
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+const allowAllOrigins = allowedOrigins.includes("*");
 const corsOptions = {
-  origin: true,
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, allowNoOrigin);
+    if (allowAllOrigins) return callback(null, true);
+    return callback(null, allowedOrigins.includes(origin));
+  },
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Authorization", "Content-Type"],
+  allowedHeaders: [
+    "Authorization",
+    "Content-Type",
+    "X-Requested-With",
+    "X-Request-Id",
+  ],
 };
 app.use(cors(corsOptions));
 // Ensure CORS preflight (OPTIONS) handled for all routes
@@ -58,12 +86,17 @@ app.get(["/health", "/"], (req, res) => {
 });
 
 // Swagger UI and JSON
+const docsGuard =
+  (process.env.DOCS_PUBLIC || "false").toLowerCase() === "true"
+    ? []
+    : [authenticate, authorizePermissions("docs.read")];
 app.use(
   "/docs",
+  ...docsGuard,
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, { explorer: true })
 );
-app.get("/docs.json", (req, res) => res.json(swaggerSpec));
+app.get("/docs.json", ...docsGuard, (req, res) => res.json(swaggerSpec));
 
 // Public endpoints (no auth, /public prefix)
 app.use("/public", publicRoutes);
